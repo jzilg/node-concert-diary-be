@@ -1,6 +1,5 @@
-import { type } from "os";
-
 type Concert = {
+    id: string
     date: string
 }
 

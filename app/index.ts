@@ -1,18 +1,13 @@
 import express from 'express'
-import dotenv from 'dotenv'
+import bodyParser from 'body-parser'
 import morgan from './middleware/morgan'
-import router from './router';
-
-const dotenvConfig = dotenv.config()
-
-if (dotenvConfig.error) {
-    throw dotenvConfig.error
-}
+import router from './router'
 
 const server = express()
 
 server.use([
     morgan,
+    bodyParser.json(),
     router,
 ])
 

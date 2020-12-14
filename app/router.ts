@@ -11,10 +11,13 @@ router.get('/', (request, response) => {
 })
 
 router.post('/login', authController.login)
-
 router.get('/verify/:token', authController.verify)
 
 router.get('/concerts', authMiddleware, concertsController.index)
+router.get('/concerts/:id', authMiddleware, concertsController.show)
+router.post('/concerts', authMiddleware, concertsController.store)
+router.put('/concerts', authMiddleware, concertsController.update)
+router.delete('/concerts', authMiddleware, concertsController.destroy)
 
 router.use(notFoundController)
 
