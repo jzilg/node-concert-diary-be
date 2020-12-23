@@ -1,6 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import morgan from './middleware/morgan'
+import cors from 'cors'
 import router from './router'
 
 const server = express()
@@ -8,6 +9,7 @@ const server = express()
 server.use([
     morgan,
     bodyParser.json(),
+    cors(),
     router,
 ])
 

@@ -1,16 +1,21 @@
 import { Handler } from 'express'
-import User from '../entities/User'
-import { createToken, verifyToken } from '../provider/authentification'
+import authInteractor from '../interactors/authInteractor'
 
 const login: Handler = (request, response) => {
-    const user: User = { name: 'Johannes' }
-    const token = createToken(user)
+    const { username, password } = request.body
+    const token = authInteractor.authenticate(username, password)
+
+    if (token === null) {
+        response.status(401)
+        response.json('Unauthorized')
+        return
+    }
 
     response.json(token)
 }
 
 const verify: Handler = (request, response) => {
-    const isVeryfied = verifyToken(request.params.token)
+    const isVeryfied = authInteractor.verifyToken(request.params.token)
 
     response.send(isVeryfied)
 }

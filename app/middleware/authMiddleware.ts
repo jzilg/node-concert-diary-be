@@ -1,12 +1,12 @@
 import { Handler } from 'express'
-import { verifyToken } from '../provider/authentification'
+import authInteractor from '../interactors/authInteractor'
 
 const authMiddleware: Handler = (request, response, next) => {
-    const isVeryfied = verifyToken(request.query.token as string)
+    const isVeryfied = authInteractor.verifyToken(request.query.api_token as string)
 
     if (!isVeryfied) {
         response.status(401)
-        response.json('401: Unauthorized')
+        response.json('Unauthorized')
         return
     }
 
