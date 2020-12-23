@@ -8,7 +8,7 @@ const index: Handler = (request, response) => {
         })
         .catch((error) => {
             response.status(500)
-            response.json(`500: ${error}`)
+            response.json(error)
         })
 }
 
@@ -21,7 +21,7 @@ const show: Handler = (request, response) => {
         })
         .catch((error) => {
             response.status(500)
-            response.json(`500: ${error}`)
+            response.json(error)
         })
 }
 
@@ -34,7 +34,7 @@ const store: Handler = (request, response) => {
         })
         .catch((error) => {
             response.status(500)
-            response.json(`500: ${error}`)
+            response.json(error)
         })
 }
 
@@ -49,7 +49,7 @@ const update: Handler = (request, response) => {
         })
         .catch((error) => {
             response.status(500)
-            response.json(`500: ${error}`)
+            response.json(error)
         })
 }
 
@@ -62,7 +62,7 @@ const destroy: Handler = (request, response) => {
         })
         .catch((error) => {
             response.status(500)
-            response.json(`500: ${error}`)
+            response.json(error)
         })
 }
 
