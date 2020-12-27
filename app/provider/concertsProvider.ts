@@ -8,7 +8,7 @@ type ConcertsProvider = {
     getConcerts: () => Promise<Concert[]>
     getConcert: (id: Concert['id']) => Promise<Concert>
     storeConcert: (concert: Concert) => Promise<Concert>
-    updateConcert: (concert: Concert) => Promise<Concert>
+    updateConcert: (id: string, concert: Concert) => Promise<Concert>
     deleteConcert: (id: Concert['id']) => Promise<void>
 }
 
@@ -53,12 +53,12 @@ async function storeConcert(concert: Concert) {
     return concert
 }
 
-async function updateConcert(concert: Concert) {
+async function updateConcert(id: string, concert: Concert) {
     const client = createClient()
     await client.connect()
     const db = client.db(DB)
     const collection = db.collection(COLLECTION)
-    const query = { id: concert.id }
+    const query = { id }
     const document = {
         $set: concert,
     }

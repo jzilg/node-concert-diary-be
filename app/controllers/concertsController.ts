@@ -26,9 +26,21 @@ const show: Handler = (request, response) => {
 }
 
 const store: Handler = (request, response) => {
-    const { date } = request.body
+    const {
+        band,
+        supportBands,
+        location,
+        date,
+        companions,
+    } = request.body
 
-    concertsInteractor.storeConcert(date)
+    concertsInteractor.storeConcert({
+        band,
+        supportBands,
+        location,
+        date,
+        companions,
+    })
         .then((storedConcert) => {
             response.json(storedConcert)
         })
@@ -39,11 +51,12 @@ const store: Handler = (request, response) => {
 }
 
 const update: Handler = (request, response) => {
+    const { id } = request.params
     const concert = {
         ...request.body,
     }
 
-    concertsInteractor.updateConcert(concert)
+    concertsInteractor.updateConcert(id, concert)
         .then((updatedConcert) => {
             response.json(updatedConcert)
         })
@@ -54,7 +67,7 @@ const update: Handler = (request, response) => {
 }
 
 const destroy: Handler = (request, response) => {
-    const { id } = request.body
+    const { id } = request.params
 
     concertsInteractor.deleteConcert(id)
         .then(() => {

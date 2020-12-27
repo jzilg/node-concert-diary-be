@@ -10,17 +10,27 @@ function getConcert(id: Concert['id']): Promise<Concert> {
     return concertsProvider.getConcert(id)
 }
 
-function storeConcert(date: string): Promise<Concert> {
+function storeConcert({
+    band,
+    supportBands,
+    location,
+    date,
+    companions,
+}: Omit<Concert, 'id'>): Promise<Concert> {
     const concert: Concert = {
         id: uniqid(),
+        band,
+        supportBands,
         date,
+        location,
+        companions,
     }
 
     return concertsProvider.storeConcert(concert)
 }
 
-function updateConcert(concert: Concert): Promise<Concert> {
-    return concertsProvider.updateConcert(concert)
+function updateConcert(id: string, concert: Concert): Promise<Concert> {
+    return concertsProvider.updateConcert(id, concert)
 }
 
 function deleteConcert(id: Concert['id']): Promise<void> {

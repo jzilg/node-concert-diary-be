@@ -16,8 +16,8 @@ router.get('/verify/:token', authController.verify)
 router.get('/concerts', authMiddleware, concertsController.index)
 router.get('/concerts/:id', authMiddleware, concertsController.show)
 router.post('/concerts', authMiddleware, concertsController.store)
-router.put('/concerts', authMiddleware, concertsController.update)
-router.delete('/concerts', authMiddleware, concertsController.destroy)
+router.put('/concerts/:id', authMiddleware, concertsController.update)
+router.delete('/concerts/:id', authMiddleware, concertsController.destroy)
 
 router.use(notFoundController)
 
