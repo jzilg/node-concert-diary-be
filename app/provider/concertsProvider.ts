@@ -4,15 +4,7 @@ import createClient from '../db/createClient'
 const DB = 'concert-diary'
 const COLLECTION = 'concerts'
 
-type ConcertsProvider = {
-    getConcerts: () => Promise<Concert[]>
-    getConcert: (id: Concert['id']) => Promise<Concert>
-    storeConcert: (concert: Concert) => Promise<Concert>
-    updateConcert: (id: string, concert: Concert) => Promise<Concert>
-    deleteConcert: (id: Concert['id']) => Promise<void>
-}
-
-async function getConcerts()  {
+export async function getConcerts(): Promise<Concert[]>  {
     const client = createClient();
     await client.connect()
     const db = client.db(DB)
@@ -26,7 +18,7 @@ async function getConcerts()  {
     return concerts
 }
 
-async function getConcert(id: Concert['id']): Promise<Concert>  {
+export async function getConcert(id: Concert['id']): Promise<Concert>  {
     const client = createClient();
     await client.connect()
     const db = client.db(DB)
@@ -40,7 +32,7 @@ async function getConcert(id: Concert['id']): Promise<Concert>  {
     return concert
 }
 
-async function storeConcert(concert: Concert) {
+export async function storeConcert(concert: Concert): Promise<Concert> {
     const client = createClient()
     await client.connect()
     const db = client.db(DB)
@@ -53,7 +45,7 @@ async function storeConcert(concert: Concert) {
     return concert
 }
 
-async function updateConcert(id: string, concert: Concert) {
+export async function updateConcert(id: string, concert: Concert): Promise<Concert> {
     const client = createClient()
     await client.connect()
     const db = client.db(DB)
@@ -70,7 +62,7 @@ async function updateConcert(id: string, concert: Concert) {
     return concert
 }
 
-async function deleteConcert(id: Concert['id']) {
+export async function deleteConcert(id: Concert['id']): Promise<void> {
     const client = createClient()
     await client.connect()
     const db = client.db(DB)
@@ -81,13 +73,3 @@ async function deleteConcert(id: Concert['id']) {
 
     await client.close()
 }
-
-const concertsProvider: ConcertsProvider = {
-    getConcerts,
-    getConcert,
-    storeConcert,
-    updateConcert,
-    deleteConcert,
-}
-
-export default concertsProvider

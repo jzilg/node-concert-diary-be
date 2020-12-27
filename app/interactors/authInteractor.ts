@@ -21,7 +21,7 @@ export function authenticate(username: string, password: string): string | null 
 
 export function createToken(user: User): string {
     const token = sign(user, SECRET as string, {
-        expiresIn: '300s',
+        expiresIn: '30m',
     })
 
     return token
@@ -37,9 +37,4 @@ export function verifyToken(token: string): boolean {
     } catch (error) {
         return false
     }
-}
-
-export default {
-    authenticate,
-    verifyToken,
 }

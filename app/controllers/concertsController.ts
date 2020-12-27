@@ -1,7 +1,7 @@
 import { Handler } from 'express'
-import concertsInteractor from '../interactors/concertsInteractor'
+import * as concertsInteractor from '../interactors/concertsInteractor'
 
-const index: Handler = (request, response) => {
+export const index: Handler = (request, response) => {
     concertsInteractor.getAllConcerts()
         .then((concerts) => {
             response.json(concerts)
@@ -12,7 +12,7 @@ const index: Handler = (request, response) => {
         })
 }
 
-const show: Handler = (request, response) => {
+export const show: Handler = (request, response) => {
     const { id } = request.params
 
     concertsInteractor.getConcert(id)
@@ -25,7 +25,7 @@ const show: Handler = (request, response) => {
         })
 }
 
-const store: Handler = (request, response) => {
+export const store: Handler = (request, response) => {
     const {
         band,
         supportBands,
@@ -50,7 +50,7 @@ const store: Handler = (request, response) => {
         })
 }
 
-const update: Handler = (request, response) => {
+export const update: Handler = (request, response) => {
     const { id } = request.params
     const concert = {
         ...request.body,
@@ -66,7 +66,7 @@ const update: Handler = (request, response) => {
         })
 }
 
-const destroy: Handler = (request, response) => {
+export const destroy: Handler = (request, response) => {
     const { id } = request.params
 
     concertsInteractor.deleteConcert(id)
@@ -77,12 +77,4 @@ const destroy: Handler = (request, response) => {
             response.status(500)
             response.json(error)
         })
-}
-
-export default {
-    index,
-    show,
-    store,
-    update,
-    destroy,
 }

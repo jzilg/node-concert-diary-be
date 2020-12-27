@@ -1,7 +1,7 @@
 import { Handler } from 'express'
-import authInteractor from '../interactors/authInteractor'
+import * as authInteractor from '../interactors/authInteractor'
 
-const login: Handler = (request, response) => {
+export const login: Handler = (request, response) => {
     const { username, password } = request.body
     const token = authInteractor.authenticate(username, password)
 
@@ -12,15 +12,4 @@ const login: Handler = (request, response) => {
     }
 
     response.json(token)
-}
-
-const verify: Handler = (request, response) => {
-    const isVeryfied = authInteractor.verifyToken(request.params.token)
-
-    response.send(isVeryfied)
-}
-
-export default {
-    login,
-    verify,
 }
