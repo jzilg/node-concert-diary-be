@@ -1,5 +1,4 @@
-import * as Yup from 'yup'
-import PropsUnknown from '../../helper/PropsUnknown'
+import * as yup from 'yup'
 import createUser from './createUser'
 
 export type User = {
@@ -7,6 +6,4 @@ export type User = {
     password: string
 }
 
-export type UserData = PropsUnknown<User>
-
-export default createUser(Yup)
+export default createUser(yup)

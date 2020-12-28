@@ -26,21 +26,15 @@ export const show: Handler = (request, response) => {
 }
 
 export const store: Handler = (request, response) => {
-    const {
-        band,
-        supportBands,
-        location,
-        date,
-        companions,
-    } = request.body
+    const concertData = {
+        band: request.body.band,
+        supportBands: request.body.supportBands,
+        location: request.body.location,
+        date: request.body.date,
+        companions: request.body.companions,
+    }
 
-    concertsInteractor.storeConcert({
-        band,
-        supportBands,
-        location,
-        date,
-        companions,
-    })
+    concertsInteractor.storeConcert(concertData)
         .then((storedConcert) => {
             response.json(storedConcert)
         })
@@ -52,11 +46,16 @@ export const store: Handler = (request, response) => {
 
 export const update: Handler = (request, response) => {
     const { id } = request.params
-    const concert = {
-        ...request.body,
+    const concertData = {
+        id: request.body.id,
+        band: request.body.band,
+        supportBands: request.body.supportBands,
+        location: request.body.location,
+        date: request.body.date,
+        companions: request.body.companions,
     }
 
-    concertsInteractor.updateConcert(id, concert)
+    concertsInteractor.updateConcert(id, concertData)
         .then((updatedConcert) => {
             response.json(updatedConcert)
         })

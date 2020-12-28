@@ -1,8 +1,13 @@
 import * as yup from 'yup'
-import { Concert, ConcertData } from './index'
+import { Concert } from './index'
+import PropsUnknown from '../../helper/PropsUnknown'
 
-const createConcert = (validate: typeof yup, createId: () => string) => (concertData: ConcertData): Concert => {
+const createConcert = (validate: typeof yup, createId: () => string) => (concertData: PropsUnknown<Concert>): Concert => {
     const schema = validate.object({
+        id: validate
+            .string()
+            .required()
+            .default(createId()),
         band: validate
             .string()
             .min(1)
@@ -32,7 +37,6 @@ const createConcert = (validate: typeof yup, createId: () => string) => (concert
     const validatedConcertData = schema.validateSync(concertData)
 
     return Object.freeze({
-        id: createId(),
         ...validatedConcertData,
     })
 }

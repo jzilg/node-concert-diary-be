@@ -1,5 +1,6 @@
 import * as concertsProvider from '../provider/concertsProvider'
-import createConcert, { Concert, ConcertData } from '../entities/concert'
+import createConcert, { Concert } from '../entities/concert'
+import PropsUnknown from '../helper/PropsUnknown'
 
 export function getAllConcerts(): Promise<Concert[]> {
     return concertsProvider.getConcerts()
@@ -9,7 +10,7 @@ export function getConcert(id: Concert['id']): Promise<Concert> {
     return concertsProvider.getConcert(id)
 }
 
-export function storeConcert(concertData: ConcertData): Promise<Concert> {
+export function storeConcert(concertData: PropsUnknown<Concert>): Promise<Concert> {
     const concert = createConcert(concertData)
 
     return concertsProvider.storeConcert(concert)

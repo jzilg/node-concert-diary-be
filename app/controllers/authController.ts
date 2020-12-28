@@ -2,13 +2,9 @@ import { Handler } from 'express'
 import * as authInteractor from '../interactors/authInteractor'
 
 export const login: Handler = (request, response) => {
-    const {
-        username,
-        password,
-    } = request.body
     const userData = {
-        username,
-        password,
+        username: request.body.username,
+        password: request.body.password,
     }
 
     const token = authInteractor.authenticate(userData)

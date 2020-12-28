@@ -1,10 +1,9 @@
-import * as Yup from 'yup'
+import * as yup from 'yup'
 import uniqid from 'uniqid'
 import createConcert from './createConcert'
-import PropsUnknown from '../../helper/PropsUnknown'
 
 export type Concert = {
-    id: string
+    id?: string
     date: string
     band: string
     supportBands: string[]
@@ -12,6 +11,4 @@ export type Concert = {
     companions: string[]
 }
 
-export type ConcertData = Omit<PropsUnknown<Concert>, 'id'>
-
-export default createConcert(Yup, uniqid)
+export default createConcert(yup, uniqid)
