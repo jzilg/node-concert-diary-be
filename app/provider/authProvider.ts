@@ -1,11 +1,7 @@
-import User from '../entities/User'
+import { User } from '../entities/user'
 
-function authenticate(user: User): boolean {
+export function authenticate(user: User): boolean {
     const { USERNAME, PASSWORD } = process.env
 
     return USERNAME === user.username && PASSWORD === user.password
-}
-
-export default {
-    authenticate,
 }

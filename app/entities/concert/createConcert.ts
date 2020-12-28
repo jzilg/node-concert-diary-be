@@ -1,7 +1,7 @@
-import * as Yup from 'yup'
+import * as yup from 'yup'
 import { Concert, ConcertData } from './index'
 
-const createConcert = (validate: typeof Yup, createId: () => string) => (concertData: ConcertData): Concert => {
+const createConcert = (validate: typeof yup, createId: () => string) => (concertData: ConcertData): Concert => {
     const schema = validate.object({
         band: validate
             .string()

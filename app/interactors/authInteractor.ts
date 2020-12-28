@@ -1,25 +1,20 @@
 import { sign, verify } from 'jsonwebtoken'
-import User from '../entities/User'
-import authProvider from '../provider/authProvider'
+import * as authProvider from '../provider/authProvider'
+import createUser, { User, UserData } from '../entities/user'
 
 const { SECRET } = process.env
 
-export function authenticate(username: string, password: string): string | null {
-    const user: User = {
-        username,
-        password,
-    }
-
-    const userIsAuthenticated = authProvider.authenticate(user)
+export function authenticate(userData: UserData): string | null {
+    const userIsAuthenticated = authProvider.authenticate(userData as User)
 
     if (!userIsAuthenticated) {
         return null
     }
 
-    return createToken(user)
+    return createToken(userData as User)
 }
 
-export function createToken(user: User): string {
+function createToken(user: User): string {
     const token = sign(user, SECRET as string, {
         expiresIn: '30m',
     })
