@@ -1,6 +1,5 @@
-import uniqid from 'uniqid'
-import Concert from '../entities/Concert'
 import * as concertsProvider from '../provider/concertsProvider'
+import createConcert, { Concert, ConcertData } from '../entities/concert'
 
 export function getAllConcerts(): Promise<Concert[]> {
     return concertsProvider.getConcerts()
@@ -10,21 +9,8 @@ export function getConcert(id: Concert['id']): Promise<Concert> {
     return concertsProvider.getConcert(id)
 }
 
-export function storeConcert({
-    band,
-    supportBands,
-    location,
-    date,
-    companions,
-}: Omit<Concert, 'id'>): Promise<Concert> {
-    const concert: Concert = {
-        id: uniqid(),
-        band,
-        supportBands,
-        date,
-        location,
-        companions,
-    }
+export function storeConcert(concertData: ConcertData): Promise<Concert> {
+    const concert = createConcert(concertData)
 
     return concertsProvider.storeConcert(concert)
 }

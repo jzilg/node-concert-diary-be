@@ -1,4 +1,4 @@
-import Concert from '../entities/Concert'
+import { Concert } from '../entities/concert'
 import createClient from '../db/createClient'
 
 const DB = 'concert-diary'
@@ -38,14 +38,14 @@ export async function storeConcert(concert: Concert): Promise<Concert> {
     const db = client.db(DB)
     const collection = db.collection(COLLECTION)
 
-    await collection.insertOne(concert)
+    await collection.insertOne({ ...concert })
 
     await client.close()
 
     return concert
 }
 
-export async function updateConcert(id: string, concert: Concert): Promise<Concert> {
+export async function updateConcert(id: Concert['id'], concert: Concert): Promise<Concert> {
     const client = createClient()
     await client.connect()
     const db = client.db(DB)
