@@ -5,71 +5,86 @@ const DB = 'concert-diary'
 const COLLECTION = 'concerts'
 
 export async function getConcerts(): Promise<Concert[]>  {
-    const client = createClient();
-    await client.connect()
-    const db = client.db(DB)
-    const collection = db.collection(COLLECTION)
-    const cursor = collection.find()
+    const client = createClient()
 
-    const concerts = await cursor.toArray()
+    try {
+        await client.connect()
+        const db = client.db(DB)
+        const collection = db.collection(COLLECTION)
+        const cursor = collection.find()
 
-    await client.close()
+        const concerts = await cursor.toArray()
 
-    return concerts
+        return concerts
+    } finally {
+        await client.close()
+    }
 }
 
 export async function getConcert(id: Concert['id']): Promise<Concert>  {
-    const client = createClient();
-    await client.connect()
-    const db = client.db(DB)
-    const collection = db.collection(COLLECTION)
-    const query = { id }
+    const client = createClient()
 
-    const concert = await collection.findOne(query)
+    try {
+        await client.connect()
+        const db = client.db(DB)
+        const collection = db.collection(COLLECTION)
+        const query = { id }
 
-    await client.close()
+        const concert = await collection.findOne(query)
 
-    return concert
+        return concert
+    } finally {
+        await client.close()
+    }
 }
 
 export async function storeConcert(concert: Concert): Promise<Concert> {
     const client = createClient()
-    await client.connect()
-    const db = client.db(DB)
-    const collection = db.collection(COLLECTION)
 
-    await collection.insertOne({ ...concert })
+    try {
+        await client.connect()
+        const db = client.db(DB)
+        const collection = db.collection(COLLECTION)
 
-    await client.close()
+        await collection.insertOne({ ...concert })
 
-    return concert
+        return concert
+    } finally {
+        await client.close()
+    }
 }
 
 export async function updateConcert(id: Concert['id'], concert: Concert): Promise<Concert> {
     const client = createClient()
-    await client.connect()
-    const db = client.db(DB)
-    const collection = db.collection(COLLECTION)
-    const query = { id }
-    const document = {
-        $set: concert,
+
+    try {
+        await client.connect()
+        const db = client.db(DB)
+        const collection = db.collection(COLLECTION)
+        const query = { id }
+        const document = {
+            $set: concert,
+        }
+
+        await collection.updateOne(query, document)
+
+        return concert
+    } finally {
+        await client.close()
     }
-
-    await collection.updateOne(query, document)
-
-    await client.close()
-
-    return concert
 }
 
 export async function deleteConcert(id: Concert['id']): Promise<void> {
     const client = createClient()
-    await client.connect()
-    const db = client.db(DB)
-    const collection = db.collection(COLLECTION)
-    const query = { id }
 
-    await collection.deleteOne(query)
+    try {
+        await client.connect()
+        const db = client.db(DB)
+        const collection = db.collection(COLLECTION)
+        const query = { id }
 
-    await client.close()
+        await collection.deleteOne(query)
+    } finally {
+        await client.close()
+    }
 }
