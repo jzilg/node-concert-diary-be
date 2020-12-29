@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import * as concertsController from './controllers/concertsController'
+import * as festivalsController from './controllers/festivalsController'
 import * as authController from './controllers/authController'
 import notFoundController from './controllers/notFoundController'
 import authMiddleware from './middleware/authMiddleware'
@@ -17,6 +18,12 @@ router.get('/concerts/:id', authMiddleware, concertsController.show)
 router.post('/concerts', authMiddleware, concertsController.store)
 router.put('/concerts/:id', authMiddleware, concertsController.update)
 router.delete('/concerts/:id', authMiddleware, concertsController.destroy)
+
+router.get('/festivals', authMiddleware, festivalsController.index)
+router.get('/festivals/:id', authMiddleware, festivalsController.show)
+router.post('/festivals', authMiddleware, festivalsController.store)
+router.put('/festivals/:id', authMiddleware, festivalsController.update)
+router.delete('/festivals/:id', authMiddleware, festivalsController.destroy)
 
 router.use(notFoundController)
 
