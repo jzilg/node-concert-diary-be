@@ -4,6 +4,7 @@ import * as festivalsController from './controllers/festivalsController'
 import * as authController from './controllers/authController'
 import notFoundController from './controllers/notFoundController'
 import authMiddleware from './middleware/authMiddleware'
+import statisticsController from './controllers/statisticsController'
 
 const router = Router()
 
@@ -24,6 +25,8 @@ router.get('/festivals/:id', authMiddleware, festivalsController.show)
 router.post('/festivals', authMiddleware, festivalsController.store)
 router.put('/festivals/:id', authMiddleware, festivalsController.update)
 router.delete('/festivals/:id', authMiddleware, festivalsController.destroy)
+
+router.get('/statistics', authMiddleware, statisticsController)
 
 router.use(notFoundController)
 
