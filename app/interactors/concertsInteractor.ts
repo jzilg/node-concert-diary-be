@@ -16,7 +16,9 @@ export function storeConcert(concertData: PropsUnknown<Concert>): Promise<Concer
     return concertsProvider.storeConcert(concert)
 }
 
-export function updateConcert(id: Concert['id'], concert: Concert): Promise<Concert> {
+export function updateConcert(id: Concert['id'], concertData: PropsUnknown<Concert>): Promise<Concert> {
+    const concert = createConcert(concertData)
+
     return concertsProvider.updateConcert(id, concert)
 }
 
