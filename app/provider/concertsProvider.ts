@@ -4,7 +4,7 @@ import createClient from '../db/createClient'
 const DB = 'concert-diary'
 const COLLECTION = 'concerts'
 
-export async function getConcerts(): Promise<Concert[]>  {
+export async function getConcerts(): Promise<Concert[]> {
     const client = createClient()
 
     try {
@@ -21,7 +21,7 @@ export async function getConcerts(): Promise<Concert[]>  {
     }
 }
 
-export async function getConcert(id: Concert['id']): Promise<Concert>  {
+export async function getConcert(id: Concert['id']): Promise<Concert> {
     const client = createClient()
 
     try {

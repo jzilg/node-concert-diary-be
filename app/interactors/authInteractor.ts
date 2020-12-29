@@ -5,6 +5,14 @@ import PropsUnknown from '../helper/PropsUnknown'
 
 const { SECRET } = process.env
 
+function createToken(user: User): string {
+    const token = sign(user, SECRET as string, {
+        expiresIn: '30m',
+    })
+
+    return token
+}
+
 export function authenticate(userData: PropsUnknown<User>): string | null {
     const user = createUser(userData)
     const userIsAuthenticated = authProvider.authenticate(user)
@@ -14,14 +22,6 @@ export function authenticate(userData: PropsUnknown<User>): string | null {
     }
 
     return createToken(user)
-}
-
-function createToken(user: User): string {
-    const token = sign(user, SECRET as string, {
-        expiresIn: '30m',
-    })
-
-    return token
 }
 
 export function verifyToken(token: string): boolean {

@@ -2,7 +2,10 @@ import * as yup from 'yup'
 import { Concert } from './index'
 import PropsUnknown from '../../helper/PropsUnknown'
 
-const createConcert = (validate: typeof yup, createId: () => string) => (concertData: PropsUnknown<Concert>): Concert => {
+const createConcert = (
+    validate: typeof yup,
+    createId: () => string,
+) => (concertData: PropsUnknown<Concert>): Concert => {
     const schema = validate.object({
         id: validate
             .string()
@@ -23,14 +26,12 @@ const createConcert = (validate: typeof yup, createId: () => string) => (concert
         supportBands: validate
             .array(validate
                 .string()
-                .required()
-            )
+                .required())
             .required(),
         companions: validate
             .array(validate
                 .string()
-                .required()
-            )
+                .required())
             .required(),
     })
 

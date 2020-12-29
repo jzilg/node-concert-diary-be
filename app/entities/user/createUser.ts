@@ -11,7 +11,7 @@ const createUser = (validate: typeof yup) => (userData: PropsUnknown<User>): Use
         password: validate
             .string()
             .min(6)
-            .required()
+            .required(),
     })
 
     const validatedUser = schema.validateSync(userData)

@@ -1,4 +1,4 @@
-import { Handler } from "express"
+import { Handler } from 'express'
 
 const notFoundController: Handler = (request, response) => {
     response.status(404)

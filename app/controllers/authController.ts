@@ -1,6 +1,7 @@
 import { Handler } from 'express'
 import * as authInteractor from '../interactors/authInteractor'
 
+// eslint-disable-next-line import/prefer-default-export
 export const login: Handler = (request, response) => {
     const userData = {
         username: request.body.username,
