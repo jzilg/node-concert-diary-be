@@ -1,6 +1,7 @@
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
+import compression from 'compression'
 import morgan from './middleware/morgan'
 import router from './router'
 
@@ -10,6 +11,7 @@ server.use([
     morgan,
     bodyParser.json(),
     cors(),
+    compression(),
     router,
 ])
 
