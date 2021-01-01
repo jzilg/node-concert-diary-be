@@ -1,8 +1,19 @@
 import * as yup from 'yup'
-import { Festival } from './index'
-import PropsUnknown from '../../helper/PropsUnknown'
+import uniqid from 'uniqid'
+import PropsUnknown from '../helper/PropsUnknown'
 
-const createFestival = (
+type Festival = {
+    id?: string
+    date: {
+        from: string
+        until: string
+    }
+    name: string
+    bands: string[]
+    companions: string[]
+}
+
+export const createFestivalFactory = (
     validate: typeof yup,
     createId: () => string,
 ) => (festivalData: PropsUnknown<Festival>): Festival => {
@@ -45,4 +56,6 @@ const createFestival = (
     })
 }
 
-export default createFestival
+export const createFestival = createFestivalFactory(yup, uniqid)
+
+export default Festival

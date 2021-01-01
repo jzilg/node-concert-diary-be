@@ -1,5 +1,5 @@
 import * as festivalsProvider from '../provider/festivalsProvider'
-import createFestival, { Festival } from '../entities/festival'
+import Festival, { createFestival } from '../entities/Festival'
 import PropsUnknown from '../helper/PropsUnknown'
 
 export function getAllFestivals(): Promise<Festival[]> {

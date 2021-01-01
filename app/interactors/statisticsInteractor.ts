@@ -1,7 +1,7 @@
 import * as concertsProvider from '../provider/concertsProvider'
 import * as festivalsProvider from '../provider/festivalsProvider'
-import createConcert, { Concert } from '../entities/concert'
-import createFestival, { Festival } from '../entities/festival'
+import Concert, { createConcert } from '../entities/Concert'
+import Festival, { createFestival } from '../entities/Festival'
 
 type MostSeenBand = {
     name: string

@@ -1,5 +1,5 @@
 import * as concertsProvider from '../provider/concertsProvider'
-import createConcert, { Concert } from '../entities/concert'
+import Concert, { createConcert } from '../entities/Concert'
 import PropsUnknown from '../helper/PropsUnknown'
 
 export async function getAllConcerts(): Promise<Concert[]> {

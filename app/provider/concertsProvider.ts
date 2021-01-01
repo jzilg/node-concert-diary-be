@@ -1,4 +1,4 @@
-import { Concert } from '../entities/concert'
+import Concert from '../entities/Concert'
 import createClient from '../db/createClient'
 import PropsUnknown from '../helper/PropsUnknown'
 

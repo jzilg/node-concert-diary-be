@@ -1,4 +1,4 @@
-import { Festival } from '../entities/festival'
+import Festival from '../entities/Festival'
 import createClient from '../db/createClient'
 
 const DB = 'concert-diary'

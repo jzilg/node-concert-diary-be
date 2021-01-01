@@ -1,8 +1,12 @@
 import * as yup from 'yup'
-import { User } from './index'
-import PropsUnknown from '../../helper/PropsUnknown'
+import PropsUnknown from '../helper/PropsUnknown'
 
-const createUser = (validate: typeof yup) => (userData: PropsUnknown<User>): User => {
+type User = {
+    username: string
+    password: string
+}
+
+export const createUserFactory = (validate: typeof yup) => (userData: PropsUnknown<User>): User => {
     const schema = validate.object({
         username: validate
             .string()
@@ -21,4 +25,6 @@ const createUser = (validate: typeof yup) => (userData: PropsUnknown<User>): Use
     })
 }
 
-export default createUser
+export const createUser = createUserFactory(yup)
+
+export default User

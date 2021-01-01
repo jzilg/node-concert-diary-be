@@ -1,4 +1,4 @@
-import { User } from '../entities/user'
+import User from '../entities/User'
 
 // eslint-disable-next-line import/prefer-default-export
 export function authenticate(user: User): boolean {

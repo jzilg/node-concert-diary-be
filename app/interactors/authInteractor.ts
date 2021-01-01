@@ -1,6 +1,6 @@
 import { sign, verify } from 'jsonwebtoken'
 import * as authProvider from '../provider/authProvider'
-import createUser, { User } from '../entities/user'
+import User, { createUser } from '../entities/User'
 import PropsUnknown from '../helper/PropsUnknown'
 
 const { SECRET } = process.env
