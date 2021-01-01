@@ -2,22 +2,8 @@ import * as concertsProvider from '../provider/concertsProvider'
 import * as festivalsProvider from '../provider/festivalsProvider'
 import Concert, { createConcert } from '../entities/Concert'
 import Festival, { createFestival } from '../entities/Festival'
-
-type MostSeenBand = {
-    name: string
-    mainCount: number
-    supportCount: number
-    festivalCount: number
-    totalCount: number
-}
-
-type Statistics = {
-    mostSeenBands: MostSeenBand[]
-    totalConcertsCount: number
-    totalFestivalsCount: number
-    totalBandsCount: number
-    totalLocationsCount: number
-}
+import MostSeenBand from '../entities/MostSeenBand'
+import Statistics from '../entities/Statistics'
 
 function getMostSeenBands(concerts: Concert[], festivals: Festival[]): MostSeenBand[] {
     type Band = {
