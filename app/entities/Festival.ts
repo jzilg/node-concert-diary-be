@@ -20,7 +20,6 @@ export const createFestivalFactory = (
     const schema = validate.object({
         id: validate
             .string()
-            .required()
             .default(createId()),
         date: validate
             .object({

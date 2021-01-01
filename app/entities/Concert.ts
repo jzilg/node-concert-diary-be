@@ -18,7 +18,6 @@ export const createConcertFactory = (
     const schema = validate.object({
         id: validate
             .string()
-            .required()
             .default(createId()),
         band: validate
             .string()
