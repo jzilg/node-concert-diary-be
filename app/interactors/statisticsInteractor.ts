@@ -1,7 +1,7 @@
 import * as concertsProvider from '../provider/concertsProvider'
 import * as festivalsProvider from '../provider/festivalsProvider'
-import { Concert } from '../entities/concert'
-import { Festival } from '../entities/festival'
+import createConcert, { Concert } from '../entities/concert'
+import createFestival, { Festival } from '../entities/festival'
 
 type MostSeenBand = {
     name: string
@@ -144,8 +144,10 @@ function getLocationsCount(concerts: Concert[]): number {
 
 // eslint-disable-next-line import/prefer-default-export
 export async function getStatistics(): Promise<Statistics> {
-    const concerts = await concertsProvider.getConcerts()
-    const festivals = await festivalsProvider.getFestivals()
+    const concertsData = await concertsProvider.getConcerts()
+    const concerts = concertsData.map(createConcert)
+    const festivalsData = await festivalsProvider.getFestivals()
+    const festivals = festivalsData.map(createFestival)
 
     return {
         mostSeenBands: getMostSeenBands(concerts, festivals),

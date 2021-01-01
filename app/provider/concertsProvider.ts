@@ -1,10 +1,11 @@
 import { Concert } from '../entities/concert'
 import createClient from '../db/createClient'
+import PropsUnknown from '../helper/PropsUnknown'
 
 const DB = 'concert-diary'
 const COLLECTION = 'concerts'
 
-export async function getConcerts(): Promise<Concert[]> {
+export async function getConcerts(): Promise<PropsUnknown<Concert>[]> {
     const client = createClient()
 
     try {
@@ -21,7 +22,7 @@ export async function getConcerts(): Promise<Concert[]> {
     }
 }
 
-export async function getConcert(id: Concert['id']): Promise<Concert> {
+export async function getConcert(id: Concert['id']): Promise<PropsUnknown<Concert>> {
     const client = createClient()
 
     try {

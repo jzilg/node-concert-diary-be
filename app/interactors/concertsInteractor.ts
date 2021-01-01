@@ -2,12 +2,16 @@ import * as concertsProvider from '../provider/concertsProvider'
 import createConcert, { Concert } from '../entities/concert'
 import PropsUnknown from '../helper/PropsUnknown'
 
-export function getAllConcerts(): Promise<Concert[]> {
-    return concertsProvider.getConcerts()
+export async function getAllConcerts(): Promise<Concert[]> {
+    const concertsData = await concertsProvider.getConcerts()
+
+    return concertsData.map(createConcert)
 }
 
-export function getConcert(id: Concert['id']): Promise<Concert> {
-    return concertsProvider.getConcert(id)
+export async function getConcert(id: Concert['id']): Promise<Concert> {
+    const concertData = await concertsProvider.getConcert(id)
+
+    return createConcert(concertData)
 }
 
 export function storeConcert(concertData: PropsUnknown<Concert>): Promise<Concert> {
