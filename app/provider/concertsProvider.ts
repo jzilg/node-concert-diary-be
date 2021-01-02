@@ -5,7 +5,7 @@ import PropsUnknown from '../helper/PropsUnknown'
 const DB = 'concert-diary'
 const COLLECTION = 'concerts'
 
-export async function getConcerts(): Promise<PropsUnknown<Concert>[]> {
+export async function getAll(): Promise<PropsUnknown<Concert>[]> {
     const client = createClient()
 
     try {
@@ -22,7 +22,7 @@ export async function getConcerts(): Promise<PropsUnknown<Concert>[]> {
     }
 }
 
-export async function getConcert(id: Concert['id']): Promise<PropsUnknown<Concert>> {
+export async function getById(id: Concert['id']): Promise<PropsUnknown<Concert>> {
     const client = createClient()
 
     try {
@@ -39,7 +39,7 @@ export async function getConcert(id: Concert['id']): Promise<PropsUnknown<Concer
     }
 }
 
-export async function storeConcert(concert: Concert): Promise<Concert> {
+export async function add(concert: Concert): Promise<Concert> {
     const client = createClient()
 
     try {
@@ -55,7 +55,7 @@ export async function storeConcert(concert: Concert): Promise<Concert> {
     }
 }
 
-export async function updateConcert(id: Concert['id'], concert: Concert): Promise<Concert> {
+export async function update(id: Concert['id'], concert: Concert): Promise<Concert> {
     const client = createClient()
 
     try {
@@ -75,7 +75,7 @@ export async function updateConcert(id: Concert['id'], concert: Concert): Promis
     }
 }
 
-export async function deleteConcert(id: Concert['id']): Promise<void> {
+export async function remove(id: Concert['id']): Promise<void> {
     const client = createClient()
 
     try {

@@ -4,7 +4,7 @@ import createClient from '../db/createClient'
 const DB = 'concert-diary'
 const COLLECTION = 'festivals'
 
-export async function getFestivals(): Promise<Festival[]> {
+export async function getAll(): Promise<Festival[]> {
     const client = createClient()
 
     try {
@@ -21,7 +21,7 @@ export async function getFestivals(): Promise<Festival[]> {
     }
 }
 
-export async function getFestival(id: Festival['id']): Promise<Festival> {
+export async function getById(id: Festival['id']): Promise<Festival> {
     const client = createClient()
 
     try {
@@ -38,7 +38,7 @@ export async function getFestival(id: Festival['id']): Promise<Festival> {
     }
 }
 
-export async function storeFestival(festival: Festival): Promise<Festival> {
+export async function add(festival: Festival): Promise<Festival> {
     const client = createClient()
 
     try {
@@ -54,7 +54,7 @@ export async function storeFestival(festival: Festival): Promise<Festival> {
     }
 }
 
-export async function updateFestival(id: Festival['id'], festival: Festival): Promise<Festival> {
+export async function update(id: Festival['id'], festival: Festival): Promise<Festival> {
     const client = createClient()
 
     try {
@@ -74,7 +74,7 @@ export async function updateFestival(id: Festival['id'], festival: Festival): Pr
     }
 }
 
-export async function deleteFestival(id: Festival['id']): Promise<void> {
+export async function remove(id: Festival['id']): Promise<void> {
     const client = createClient()
 
     try {

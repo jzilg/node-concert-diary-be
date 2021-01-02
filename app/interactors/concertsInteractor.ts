@@ -3,13 +3,13 @@ import Concert, { createConcert } from '../entities/Concert'
 import PropsUnknown from '../helper/PropsUnknown'
 
 export async function getAllConcerts(): Promise<Concert[]> {
-    const concertsData = await concertsProvider.getConcerts()
+    const concertsData = await concertsProvider.getAll()
 
     return concertsData.map(createConcert)
 }
 
 export async function getConcert(id: Concert['id']): Promise<Concert> {
-    const concertData = await concertsProvider.getConcert(id)
+    const concertData = await concertsProvider.getById(id)
 
     return createConcert(concertData)
 }
@@ -17,15 +17,15 @@ export async function getConcert(id: Concert['id']): Promise<Concert> {
 export function storeConcert(concertData: PropsUnknown<Concert>): Promise<Concert> {
     const concert = createConcert(concertData)
 
-    return concertsProvider.storeConcert(concert)
+    return concertsProvider.add(concert)
 }
 
 export function updateConcert(id: Concert['id'], concertData: PropsUnknown<Concert>): Promise<Concert> {
     const concert = createConcert(concertData)
 
-    return concertsProvider.updateConcert(id, concert)
+    return concertsProvider.update(id, concert)
 }
 
 export function deleteConcert(id: Concert['id']): Promise<void> {
-    return concertsProvider.deleteConcert(id)
+    return concertsProvider.remove(id)
 }

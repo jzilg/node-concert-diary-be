@@ -3,25 +3,25 @@ import Festival, { createFestival } from '../entities/Festival'
 import PropsUnknown from '../helper/PropsUnknown'
 
 export function getAllFestivals(): Promise<Festival[]> {
-    return festivalsProvider.getFestivals()
+    return festivalsProvider.getAll()
 }
 
 export function getFestival(id: Festival['id']): Promise<Festival> {
-    return festivalsProvider.getFestival(id)
+    return festivalsProvider.getById(id)
 }
 
 export function storeFestival(festivalData: PropsUnknown<Festival>): Promise<Festival> {
     const festival = createFestival(festivalData)
 
-    return festivalsProvider.storeFestival(festival)
+    return festivalsProvider.add(festival)
 }
 
 export function updateFestival(id: Festival['id'], festivalData: PropsUnknown<Festival>): Promise<Festival> {
     const festival = createFestival(festivalData)
 
-    return festivalsProvider.updateFestival(id, festival)
+    return festivalsProvider.update(id, festival)
 }
 
 export function deleteFestival(id: Festival['id']): Promise<void> {
-    return festivalsProvider.deleteFestival(id)
+    return festivalsProvider.remove(id)
 }

@@ -144,9 +144,9 @@ function getLocationsCount(concerts: Concert[]): number {
 
 // eslint-disable-next-line import/prefer-default-export
 export async function getStatistics(): Promise<Statistics> {
-    const concertsData = await concertsProvider.getConcerts()
+    const concertsData = await concertsProvider.getAll()
     const concerts = concertsData.map(createConcert)
-    const festivalsData = await festivalsProvider.getFestivals()
+    const festivalsData = await festivalsProvider.getAll()
     const festivals = festivalsData.map(createFestival)
 
     return {
