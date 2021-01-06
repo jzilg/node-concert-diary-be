@@ -21,14 +21,10 @@
     "indent": ["error", 4, {
       "SwitchCase": 1
     }],
-    "import/extensions": [
-      "error",
-      "always",
-      {
+    "import/extensions": ["error", "always", {
         "js": "never",
         "ts": "never"
-      }
-    ],
+    }],
     "no-multiple-empty-lines": ["error", {
       "max": 1,
       "maxEOF": 1
@@ -93,6 +89,16 @@
       }
     }],
     "@typescript-eslint/ban-types": 0,
+    "@typescript-eslint/comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "always-multiline",
+      "enums": "always-multiline",
+      "generics": "always-multiline",
+      "tuples": "always-multiline"
+    }],
     "@typescript-eslint/indent": ["error", 4],
     "@typescript-eslint/prefer-interface": 0,
     "@typescript-eslint/no-use-before-define": "error",
