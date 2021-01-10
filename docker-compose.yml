@@ -1,5 +1,3 @@
-version: "3.3"
-
 services:
   concert-diary-be:
     build:
@@ -8,4 +6,4 @@ services:
     container_name: "concert-diary-be"
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "${PORT}:${PORT}"
