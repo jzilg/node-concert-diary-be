@@ -9,6 +9,10 @@ services:
     restart: unless-stopped
     ports:
       - "${PORT}:${PORT}"
+    links:
+      - concert-diary-db
+    depends_on:
+      - concert-diary-db
 
   concert-diary-db:
     image: mongo:latest
