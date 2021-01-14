@@ -9,3 +9,13 @@ services:
     restart: unless-stopped
     ports:
       - "${PORT}:${PORT}"
+
+  concert-diary-db:
+    image: mongo:latest
+    container_name: "concert-diary-db"
+    volumes:
+      - ~/concert-diary/db:/data/db
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+    command: [--auth]
