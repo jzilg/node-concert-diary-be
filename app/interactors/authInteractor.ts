@@ -3,10 +3,10 @@ import * as authProvider from '../provider/authProvider'
 import User, { createUser } from '../entities/User'
 import PropsUnknown from '../helper/PropsUnknown'
 
-const { SECRET } = process.env
+const { JWT_SECRET } = process.env
 
 function createToken(user: User): string {
-    const token = sign(user, SECRET as string, {
+    const token = sign(user, JWT_SECRET as string, {
         expiresIn: '30m',
     })
 
@@ -30,7 +30,7 @@ export function verifyToken(token: string): boolean {
     }
 
     try {
-        return typeof verify(token, SECRET as string) === 'object'
+        return typeof verify(token, JWT_SECRET as string) === 'object'
     } catch (error) {
         return false
     }
