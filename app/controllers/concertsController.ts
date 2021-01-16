@@ -36,6 +36,7 @@ export const store: Handler = (request, response) => {
 
     concertsInteractor.storeConcert(concertData)
         .then((storedConcert) => {
+            response.status(201)
             response.json(storedConcert)
         })
         .catch((error) => {
@@ -70,7 +71,7 @@ export const destroy: Handler = (request, response) => {
 
     concertsInteractor.deleteConcert(id)
         .then(() => {
-            response.json('Concert removed')
+            response.status(204)
         })
         .catch((error) => {
             response.status(500)

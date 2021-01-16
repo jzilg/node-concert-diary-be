@@ -35,6 +35,7 @@ export const store: Handler = (request, response) => {
 
     festivalsInteractor.storeFestival(festivalData)
         .then((storedFestival) => {
+            response.status(201)
             response.json(storedFestival)
         })
         .catch((error) => {
@@ -68,7 +69,7 @@ export const destroy: Handler = (request, response) => {
 
     festivalsInteractor.deleteFestival(id)
         .then(() => {
-            response.json('Festival removed')
+            response.status(204)
         })
         .catch((error) => {
             response.status(500)
