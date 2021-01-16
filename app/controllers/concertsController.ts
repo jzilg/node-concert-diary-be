@@ -1,31 +1,25 @@
 import { Handler } from 'express'
 import * as concertsInteractor from '../interactors/concertsInteractor'
 
-export const index: Handler = (request, response) => {
+export const index: Handler = (request, response, next) => {
     concertsInteractor.getAllConcerts()
         .then((concerts) => {
             response.json(concerts)
         })
-        .catch((error) => {
-            response.status(500)
-            response.json(error)
-        })
+        .catch(next)
 }
 
-export const show: Handler = (request, response) => {
+export const show: Handler = (request, response, next) => {
     const { id } = request.params
 
     concertsInteractor.getConcert(id)
         .then((concert) => {
             response.json(concert)
         })
-        .catch((error) => {
-            response.status(500)
-            response.json(error)
-        })
+        .catch(next)
 }
 
-export const store: Handler = (request, response) => {
+export const store: Handler = (request, response, next) => {
     const concertData = {
         band: request.body.band,
         supportBands: request.body.supportBands,
@@ -39,13 +33,10 @@ export const store: Handler = (request, response) => {
             response.status(201)
             response.json(storedConcert)
         })
-        .catch((error) => {
-            response.status(500)
-            response.json(error)
-        })
+        .catch(next)
 }
 
-export const update: Handler = (request, response) => {
+export const update: Handler = (request, response, next) => {
     const { id } = request.params
     const concertData = {
         id: request.body.id,
@@ -60,21 +51,15 @@ export const update: Handler = (request, response) => {
         .then((updatedConcert) => {
             response.json(updatedConcert)
         })
-        .catch((error) => {
-            response.status(500)
-            response.json(error)
-        })
+        .catch(next)
 }
 
-export const destroy: Handler = (request, response) => {
+export const destroy: Handler = (request, response, next) => {
     const { id } = request.params
 
     concertsInteractor.deleteConcert(id)
         .then(() => {
             response.status(204)
         })
-        .catch((error) => {
-            response.status(500)
-            response.json(error)
-        })
+        .catch(next)
 }

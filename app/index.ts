@@ -4,6 +4,7 @@ import cors from 'cors'
 import compression from 'compression'
 import morgan from './middleware/morgan'
 import router from './router'
+import errorMiddleware from './middleware/errorMiddleware'
 
 const server = express()
 
@@ -13,6 +14,7 @@ server.use([
     cors(),
     compression(),
     router,
+    errorMiddleware,
 ])
 
 function start(): void {

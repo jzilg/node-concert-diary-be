@@ -1,15 +1,12 @@
 import { Handler } from 'express'
 import * as statisticsInteractor from '../interactors/statisticsInteractor'
 
-const statisticsController: Handler = (request, response) => {
+const statisticsController: Handler = (request, response, next) => {
     statisticsInteractor.getStatistics()
         .then((statistics) => {
             response.json(statistics)
         })
-        .catch((error) => {
-            response.status(500)
-            response.json(error)
-        })
+        .catch(next)
 }
 
 export default statisticsController

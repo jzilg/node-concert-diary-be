@@ -1,31 +1,25 @@
 import { Handler } from 'express'
 import * as festivalsInteractor from '../interactors/festivalsInteractor'
 
-export const index: Handler = (request, response) => {
+export const index: Handler = (request, response, next) => {
     festivalsInteractor.getAllFestivals()
         .then((festivals) => {
             response.json(festivals)
         })
-        .catch((error) => {
-            response.status(500)
-            response.json(error)
-        })
+        .catch(next)
 }
 
-export const show: Handler = (request, response) => {
+export const show: Handler = (request, response, next) => {
     const { id } = request.params
 
     festivalsInteractor.getFestival(id)
         .then((festival) => {
             response.json(festival)
         })
-        .catch((error) => {
-            response.status(500)
-            response.json(error)
-        })
+        .catch(next)
 }
 
-export const store: Handler = (request, response) => {
+export const store: Handler = (request, response, next) => {
     const festivalData = {
         bands: request.body.bands,
         name: request.body.name,
@@ -38,13 +32,10 @@ export const store: Handler = (request, response) => {
             response.status(201)
             response.json(storedFestival)
         })
-        .catch((error) => {
-            response.status(500)
-            response.json(error)
-        })
+        .catch(next)
 }
 
-export const update: Handler = (request, response) => {
+export const update: Handler = (request, response, next) => {
     const { id } = request.params
     const festivalData = {
         id: request.body.id,
@@ -58,21 +49,15 @@ export const update: Handler = (request, response) => {
         .then((updatedFestival) => {
             response.json(updatedFestival)
         })
-        .catch((error) => {
-            response.status(500)
-            response.json(error)
-        })
+        .catch(next)
 }
 
-export const destroy: Handler = (request, response) => {
+export const destroy: Handler = (request, response, next) => {
     const { id } = request.params
 
     festivalsInteractor.deleteFestival(id)
         .then(() => {
             response.status(204)
         })
-        .catch((error) => {
-            response.status(500)
-            response.json(error)
-        })
+        .catch(next)
 }
