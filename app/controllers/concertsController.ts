@@ -60,6 +60,7 @@ export const destroy: Handler = (request, response, next) => {
     concertsInteractor.deleteConcert(id)
         .then(() => {
             response.status(204)
+            response.send()
         })
         .catch(next)
 }

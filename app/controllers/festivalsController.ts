@@ -58,6 +58,7 @@ export const destroy: Handler = (request, response, next) => {
     festivalsInteractor.deleteFestival(id)
         .then(() => {
             response.status(204)
+            response.send()
         })
         .catch(next)
 }
