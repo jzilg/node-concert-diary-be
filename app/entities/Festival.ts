@@ -47,7 +47,7 @@ export const createFestivalFactory = (
                 .string()
                 .required())
             .required(),
-    })
+    }).noUnknown()
 
     const validatedFestivalData = schema.validateSync(festivalData)
 

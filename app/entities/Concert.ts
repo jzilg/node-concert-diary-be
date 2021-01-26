@@ -41,7 +41,7 @@ export const createConcertFactory = (
                 .string()
                 .required())
             .required(),
-    })
+    }).noUnknown()
 
     const validatedConcertData = schema.validateSync(concertData)
 
