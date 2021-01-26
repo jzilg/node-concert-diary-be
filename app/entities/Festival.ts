@@ -25,11 +25,11 @@ export const createFestivalFactory = (
             .object({
                 from: validate
                     .string()
-                    .min(1)
+                    .matches(/^[0-3][0-9].[0-1][0-9].[0-9]{4}$/)
                     .required(),
                 until: validate
                     .string()
-                    .min(1)
+                    .matches(/^[0-3][0-9].[0-1][0-9].[0-9]{4}$/)
                     .required(),
             }),
         name: validate
