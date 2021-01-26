@@ -1,6 +1,7 @@
 import * as yup from 'yup'
 import uniqid from 'uniqid'
 import PropsUnknown from '../helper/PropsUnknown'
+import dateRegEx from '../helper/dateRegEx'
 
 type Festival = {
     id?: string
@@ -25,11 +26,11 @@ export const createFestivalFactory = (
             .object({
                 from: validate
                     .string()
-                    .matches(/^[0-3][0-9].[0-1][0-9].[0-9]{4}$/)
+                    .matches(dateRegEx)
                     .required(),
                 until: validate
                     .string()
-                    .matches(/^[0-3][0-9].[0-1][0-9].[0-9]{4}$/)
+                    .matches(dateRegEx)
                     .required(),
             }),
         name: validate

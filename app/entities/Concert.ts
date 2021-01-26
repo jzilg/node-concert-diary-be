@@ -1,6 +1,7 @@
 import * as yup from 'yup'
 import uniqid from 'uniqid'
 import PropsUnknown from '../helper/PropsUnknown'
+import dateRegEx from '../helper/dateRegEx'
 
 export type Concert = {
     id?: string
@@ -25,7 +26,7 @@ export const createConcertFactory = (
             .required(),
         date: validate
             .string()
-            .matches(/^[0-3][0-9].[0-1][0-9].[0-9]{4}$/)
+            .matches(dateRegEx)
             .required(),
         location: validate
             .string()
