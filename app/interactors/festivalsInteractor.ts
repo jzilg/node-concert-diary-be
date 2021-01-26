@@ -2,12 +2,16 @@ import * as festivalsProvider from '../provider/festivalsProvider'
 import Festival, { createFestival } from '../entities/Festival'
 import PropsUnknown from '../helper/PropsUnknown'
 
-export function getAllFestivals(): Promise<Festival[]> {
-    return festivalsProvider.getAll()
+export async function getAllFestivals(): Promise<Festival[]> {
+    const festivalsData = await festivalsProvider.getAll()
+
+    return festivalsData.map(createFestival)
 }
 
-export function getFestival(id: Festival['id']): Promise<Festival> {
-    return festivalsProvider.getById(id)
+export async function getFestival(id: Festival['id']): Promise<Festival> {
+    const festivalData = await festivalsProvider.getById(id)
+
+    return createFestival(festivalData)
 }
 
 export function storeFestival(festivalData: PropsUnknown<Festival>): Promise<Festival> {
