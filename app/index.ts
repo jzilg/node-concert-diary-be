@@ -18,13 +18,9 @@ server.use([
     errorMiddleware,
 ])
 
-function start(): void {
-    const { PORT } = process.env
+const { PORT } = process.env
 
-    server.listen(PORT, () => {
-        // eslint-disable-next-line no-console
-        console.log('listen to port:', PORT, '\n')
-    })
-}
-
-start()
+server.listen(PORT, () => {
+    // eslint-disable-next-line no-console
+    console.log('listen to port:', PORT, '\n')
+})
