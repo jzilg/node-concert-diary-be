@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "rootDir": "./app",
     "outDir": "dist",
     "strict": true,
     "target": "ES2020",
@@ -8,6 +9,8 @@
       "ES2020"
     ],
     "module": "CommonJS",
+    "moduleResolution": "node",
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
   }
 }

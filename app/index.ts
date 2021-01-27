@@ -1,15 +1,16 @@
+import './env'
 import express from 'express'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import compression from 'compression'
-import morgan from './middleware/morgan'
+import morgan from 'morgan'
 import router from './router'
 import errorMiddleware from './middleware/errorMiddleware'
 
 const server = express()
 
 server.use([
-    morgan,
+    morgan('dev'),
     bodyParser.json(),
     cors(),
     compression(),
@@ -26,6 +27,4 @@ function start(): void {
     })
 }
 
-export default {
-    start,
-}
+start()
