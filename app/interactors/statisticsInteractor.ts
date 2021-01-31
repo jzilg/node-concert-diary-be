@@ -1,5 +1,5 @@
-import * as concertsProvider from '../provider/concertsProvider'
-import * as festivalsProvider from '../provider/festivalsProvider'
+import concertsProvider from '../provider/concertsProvider'
+import festivalsProvider from '../provider/festivalsProvider'
 import Concert, { createConcert } from '../entities/Concert'
 import Festival, { createFestival } from '../entities/Festival'
 import MostSeenBand from '../entities/MostSeenBand'

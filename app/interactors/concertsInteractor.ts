@@ -1,4 +1,4 @@
-import * as concertsProvider from '../provider/concertsProvider'
+import concertsProvider from '../provider/concertsProvider'
 import Concert, { createConcert } from '../entities/Concert'
 import PropsUnknown from '../helper/PropsUnknown'
 

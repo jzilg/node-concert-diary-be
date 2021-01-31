@@ -1,5 +1,5 @@
 import { sign, verify } from 'jsonwebtoken'
-import * as authProvider from '../provider/authProvider'
+import authProvider from '../provider/authProvider'
 import User, { createUser } from '../entities/User'
 import PropsUnknown from '../helper/PropsUnknown'
 

@@ -1,8 +1,11 @@
-import User from '../entities/User'
+import AuthProvider from './interfaces/AuthProvider'
 
-// eslint-disable-next-line import/prefer-default-export
-export function authenticate(user: User): boolean {
-    const { USERNAME, PASSWORD } = process.env
+const authProvider: AuthProvider = {
+    authenticate(user) {
+        const { USERNAME, PASSWORD } = process.env
 
-    return USERNAME === user.username && PASSWORD === user.password
+        return USERNAME === user.username && PASSWORD === user.password
+    },
 }
+
+export default authProvider
