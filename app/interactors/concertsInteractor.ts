@@ -1,31 +1,35 @@
-import concertsProvider from '../provider/concertsProvider'
-import Concert, { createConcert } from '../entities/Concert'
-import PropsUnknown from '../helper/PropsUnknown'
+import { createConcert } from '../entities/Concert'
+import ConcertsProvider from '../provider/interfaces/ConcertsProvider'
+import ConcertsInteractor from './interfaces/ConcertsInteractor'
 
-export async function getAllConcerts(): Promise<Concert[]> {
-    const concertsData = await concertsProvider.getAll()
+const concertsInteractorFactory = (concertsProvider: ConcertsProvider): ConcertsInteractor => ({
+    async getAllConcerts() {
+        const concertsData = await concertsProvider.getAll()
 
-    return concertsData.map(createConcert)
-}
+        return concertsData.map(createConcert)
+    },
 
-export async function getConcert(id: Concert['id']): Promise<Concert> {
-    const concertData = await concertsProvider.getById(id)
+    async getConcert(id) {
+        const concertData = await concertsProvider.getById(id)
 
-    return createConcert(concertData)
-}
+        return createConcert(concertData)
+    },
 
-export function storeConcert(concertData: PropsUnknown<Concert>): Promise<Concert> {
-    const concert = createConcert(concertData)
+    storeConcert(concertData) {
+        const concert = createConcert(concertData)
 
-    return concertsProvider.add(concert)
-}
+        return concertsProvider.add(concert)
+    },
 
-export function updateConcert(id: Concert['id'], concertData: PropsUnknown<Concert>): Promise<Concert> {
-    const concert = createConcert(concertData)
+    updateConcert(id, concertData) {
+        const concert = createConcert(concertData)
 
-    return concertsProvider.update(id, concert)
-}
+        return concertsProvider.update(id, concert)
+    },
 
-export function deleteConcert(id: Concert['id']): Promise<void> {
-    return concertsProvider.remove(id)
-}
+    deleteConcert(id) {
+        return concertsProvider.remove(id)
+    },
+})
+
+export default concertsInteractorFactory

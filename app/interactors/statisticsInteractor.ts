@@ -1,9 +1,10 @@
-import concertsProvider from '../provider/concertsProvider'
-import festivalsProvider from '../provider/festivalsProvider'
 import Concert, { createConcert } from '../entities/Concert'
 import Festival, { createFestival } from '../entities/Festival'
 import MostSeenBand from '../entities/MostSeenBand'
 import Statistics from '../entities/Statistics'
+import StatisticsInteractor from './interfaces/StatisticsInteractor'
+import ConcertsProvider from '../provider/interfaces/ConcertsProvider'
+import FestivalsProvider from '../provider/interfaces/FestivalsProvider'
 
 function getMostSeenBands(concerts: Concert[], festivals: Festival[]): MostSeenBand[] {
     type Band = {
@@ -128,18 +129,24 @@ function getLocationsCount(concerts: Concert[]): number {
     return locations.size
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export async function getStatistics(): Promise<Statistics> {
-    const concertsData = await concertsProvider.getAll()
-    const concerts = concertsData.map(createConcert)
-    const festivalsData = await festivalsProvider.getAll()
-    const festivals = festivalsData.map(createFestival)
+const statisticsInteractorFactory = (
+    concertsProvider: ConcertsProvider,
+    festivalsProvider: FestivalsProvider,
+): StatisticsInteractor => ({
+    async getStatistics() {
+        const concertsData = await concertsProvider.getAll()
+        const concerts = concertsData.map(createConcert)
+        const festivalsData = await festivalsProvider.getAll()
+        const festivals = festivalsData.map(createFestival)
 
-    return {
-        mostSeenBands: getMostSeenBands(concerts, festivals),
-        totalConcertsCount: getConcertsCount(concerts),
-        totalFestivalsCount: getFestivalsCount(festivals),
-        totalBandsCount: getBandsCount(concerts, festivals),
-        totalLocationsCount: getLocationsCount(concerts),
-    }
-}
+        return {
+            mostSeenBands: getMostSeenBands(concerts, festivals),
+            totalConcertsCount: getConcertsCount(concerts),
+            totalFestivalsCount: getFestivalsCount(festivals),
+            totalBandsCount: getBandsCount(concerts, festivals),
+            totalLocationsCount: getLocationsCount(concerts),
+        }
+    },
+})
+
+export default statisticsInteractorFactory

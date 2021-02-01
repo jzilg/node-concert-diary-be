@@ -1,10 +1,10 @@
 import { Handler } from 'express'
-import * as authInteractor from '../interactors/authInteractor'
+import { authInteractor } from '../interactors'
 
 const authMiddleware: Handler = (request, response, next) => {
-    const isVeryfied = authInteractor.verifyToken(request.query.api_token as string)
+    const isVerified = authInteractor.verifyToken(request.query.api_token as string)
 
-    if (!isVeryfied) {
+    if (!isVerified) {
         response.status(401)
         response.json('Unauthorized')
         return

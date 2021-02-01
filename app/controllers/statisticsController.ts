@@ -1,5 +1,5 @@
 import { Handler } from 'express'
-import * as statisticsInteractor from '../interactors/statisticsInteractor'
+import { statisticsInteractor } from '../interactors'
 
 const statisticsController: Handler = (request, response, next) => {
     statisticsInteractor.getStatistics()

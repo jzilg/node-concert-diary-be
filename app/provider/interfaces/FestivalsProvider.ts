@@ -3,10 +3,10 @@ import PropsUnknown from '../../helper/PropsUnknown'
 
 type FestivalsProvider = {
     getAll(): Promise<PropsUnknown<Festival>[]>
-    getById(id: Festival['id']): Promise<PropsUnknown<Festival>>
+    getById(id: string): Promise<PropsUnknown<Festival>>
     add(festival: Festival): Promise<Festival>
-    update(id: Festival['id'], festival: Festival): Promise<Festival>
-    remove(id: Festival['id']): Promise<void>
+    update(id: string, festival: Festival): Promise<Festival>
+    remove(id: string): Promise<void>
 }
 
 export default FestivalsProvider

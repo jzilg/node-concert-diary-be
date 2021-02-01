@@ -1,31 +1,35 @@
-import festivalsProvider from '../provider/festivalsProvider'
-import Festival, { createFestival } from '../entities/Festival'
-import PropsUnknown from '../helper/PropsUnknown'
+import { createFestival } from '../entities/Festival'
+import FestivalsProvider from '../provider/interfaces/FestivalsProvider'
+import FestivalsInteractor from './interfaces/FestivalsInteractor'
 
-export async function getAllFestivals(): Promise<Festival[]> {
-    const festivalsData = await festivalsProvider.getAll()
+const festivalsInteractorFactory = (festivalsProvider: FestivalsProvider): FestivalsInteractor => ({
+    async getAllFestivals() {
+        const festivalsData = await festivalsProvider.getAll()
 
-    return festivalsData.map(createFestival)
-}
+        return festivalsData.map(createFestival)
+    },
 
-export async function getFestival(id: Festival['id']): Promise<Festival> {
-    const festivalData = await festivalsProvider.getById(id)
+    async getFestival(id) {
+        const festivalData = await festivalsProvider.getById(id)
 
-    return createFestival(festivalData)
-}
+        return createFestival(festivalData)
+    },
 
-export function storeFestival(festivalData: PropsUnknown<Festival>): Promise<Festival> {
-    const festival = createFestival(festivalData)
+    storeFestival(festivalData) {
+        const festival = createFestival(festivalData)
 
-    return festivalsProvider.add(festival)
-}
+        return festivalsProvider.add(festival)
+    },
 
-export function updateFestival(id: Festival['id'], festivalData: PropsUnknown<Festival>): Promise<Festival> {
-    const festival = createFestival(festivalData)
+    updateFestival(id, festivalData) {
+        const festival = createFestival(festivalData)
 
-    return festivalsProvider.update(id, festival)
-}
+        return festivalsProvider.update(id, festival)
+    },
 
-export function deleteFestival(id: Festival['id']): Promise<void> {
-    return festivalsProvider.remove(id)
-}
+    deleteFestival(id) {
+        return festivalsProvider.remove(id)
+    },
+})
+
+export default festivalsInteractorFactory

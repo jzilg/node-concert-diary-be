@@ -1,37 +1,40 @@
-import { sign, verify } from 'jsonwebtoken'
-import authProvider from '../provider/authProvider'
 import User, { createUser } from '../entities/User'
 import PropsUnknown from '../helper/PropsUnknown'
+import AuthInteractor from './interfaces/AuthInteractor'
+import AuthProvider from '../provider/interfaces/AuthProvider'
+import Jwt from '../helper/Jwt'
 
-const { JWT_SECRET } = process.env
+const authInteractorFactory = (
+    authProvider: AuthProvider,
+    jwt: Jwt,
+    secret: string,
+): AuthInteractor => ({
+    authenticate(userData: PropsUnknown<User>): string | null {
+        const user = createUser(userData)
+        const userIsAuthenticated = authProvider.authenticate(user)
 
-function createToken(user: User): string {
-    const token = sign(user, JWT_SECRET as string, {
-        expiresIn: '30m',
-    })
+        if (!userIsAuthenticated) {
+            return null
+        }
 
-    return token
-}
+        const token = jwt.sign(user, secret, {
+            expiresIn: '30m',
+        })
 
-export function authenticate(userData: PropsUnknown<User>): string | null {
-    const user = createUser(userData)
-    const userIsAuthenticated = authProvider.authenticate(user)
+        return token
+    },
 
-    if (!userIsAuthenticated) {
-        return null
-    }
+    verifyToken(token: string): boolean {
+        if (!token) {
+            return false
+        }
 
-    return createToken(user)
-}
+        try {
+            return typeof jwt.verify(token, secret) === 'object'
+        } catch (error) {
+            return false
+        }
+    },
+})
 
-export function verifyToken(token: string): boolean {
-    if (!token) {
-        return false
-    }
-
-    try {
-        return typeof verify(token, JWT_SECRET as string) === 'object'
-    } catch (error) {
-        return false
-    }
-}
+export default authInteractorFactory

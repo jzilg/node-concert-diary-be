@@ -1,7 +1,7 @@
 import createClient from '../db/createClient'
 import FestivalsProvider from './interfaces/FestivalsProvider'
 
-const DB = 'festival-diary'
+const DB = 'concert-diary'
 const COLLECTION = 'festivals'
 
 const festivalsProvider: FestivalsProvider = {
