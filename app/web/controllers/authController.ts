@@ -1,5 +1,5 @@
 import { Handler } from 'express'
-import { authInteractor } from '../interactors'
+import { authInteractor } from '../../interactors'
 
 // eslint-disable-next-line import/prefer-default-export
 export const login: Handler = (request, response) => {

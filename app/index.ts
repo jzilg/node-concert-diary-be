@@ -4,8 +4,8 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import compression from 'compression'
 import morgan from 'morgan'
-import router from './router'
-import errorMiddleware from './middleware/errorMiddleware'
+import router from './web/router'
+import errorMiddleware from './web/middleware/errorMiddleware'
 
 const server = express()
 

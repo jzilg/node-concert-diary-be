@@ -1,5 +1,5 @@
 import { Handler } from 'express'
-import { festivalsInteractor } from '../interactors'
+import { festivalsInteractor } from '../../interactors'
 
 export const index: Handler = (request, response, next) => {
     festivalsInteractor.getAllFestivals()

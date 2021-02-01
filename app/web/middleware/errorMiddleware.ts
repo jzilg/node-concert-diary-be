@@ -1,7 +1,7 @@
 import { ErrorRequestHandler } from 'express'
 import { MongoError } from 'mongodb'
 import { ValidationError } from 'yup'
-import ApiError from '../entities/ApiError'
+import ApiError from '../../entities/ApiError'
 
 const errorMiddleware: ErrorRequestHandler = (error, request, response, next) => {
     const apiError: ApiError = {
