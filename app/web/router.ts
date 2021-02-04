@@ -1,10 +1,12 @@
 import { Router } from 'express'
-import * as concertsController from './controllers/concertsController'
-import * as festivalsController from './controllers/festivalsController'
-import * as authController from './controllers/authController'
+import {
+    authController,
+    concertsController,
+    festivalsController,
+    statisticsController,
+} from './controllers'
 import notFoundController from './controllers/notFoundController'
 import authMiddleware from './middleware/authMiddleware'
-import statisticsController from './controllers/statisticsController'
 
 const router = Router()
 
@@ -26,7 +28,7 @@ router.post('/festivals', authMiddleware, festivalsController.store)
 router.put('/festivals/:id', authMiddleware, festivalsController.update)
 router.delete('/festivals/:id', authMiddleware, festivalsController.destroy)
 
-router.get('/statistics', authMiddleware, statisticsController)
+router.get('/statistics', authMiddleware, statisticsController.index)
 
 router.use(notFoundController)
 

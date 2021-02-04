@@ -1,20 +1,23 @@
-import { Handler } from 'express'
-import { authInteractor } from '../../interactors'
+import AuthController from './interfaces/AuthController'
+import AuthInteractor from '../../interactors/interfaces/AuthInteractor'
 
-// eslint-disable-next-line import/prefer-default-export
-export const login: Handler = (request, response) => {
-    const userData = {
-        username: request.body.username,
-        password: request.body.password,
-    }
+const authControllerFactory = (authInteractor: AuthInteractor): AuthController => ({
+    login(request, response) {
+        const userData = {
+            username: request.body.username,
+            password: request.body.password,
+        }
 
-    const token = authInteractor.authenticate(userData)
+        const token = authInteractor.authenticate(userData)
 
-    if (token === null) {
-        response.status(401)
-        response.json('Unauthorized')
-        return
-    }
+        if (token === null) {
+            response.status(401)
+            response.json('Unauthorized')
+            return
+        }
 
-    response.json(token)
-}
+        response.json(token)
+    },
+})
+
+export default authControllerFactory

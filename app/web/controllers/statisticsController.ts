@@ -1,12 +1,16 @@
-import { Handler } from 'express'
-import { statisticsInteractor } from '../../interactors'
+import StatisticsController from './interfaces/StatisticsController'
+import StatisticsInteractor from '../../interactors/interfaces/StatisticsInteractor'
 
-const statisticsController: Handler = (request, response, next) => {
-    statisticsInteractor.getStatistics()
-        .then((statistics) => {
-            response.json(statistics)
-        })
-        .catch(next)
-}
+const statisticsControllerFactory = (
+    statisticsInteractor: StatisticsInteractor,
+): StatisticsController => ({
+    index(request, response, next) {
+        statisticsInteractor.getStatistics()
+            .then((statistics) => {
+                response.json(statistics)
+            })
+            .catch(next)
+    },
+})
 
-export default statisticsController
+export default statisticsControllerFactory
