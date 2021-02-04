@@ -2,7 +2,8 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "jest"
   ],
   "settings": {
     "import/resolver": {
@@ -10,6 +11,7 @@
     }
   },
   "env": {
+    "jest": true,
     "node": true
   },
   "extends": [
