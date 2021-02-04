@@ -1,7 +1,6 @@
 import Concert, { createConcert } from '../entities/Concert'
 import Festival, { createFestival } from '../entities/Festival'
 import MostSeenBand from '../entities/MostSeenBand'
-import Statistics from '../entities/Statistics'
 import StatisticsInteractor from './interfaces/StatisticsInteractor'
 import ConcertsProvider from '../provider/interfaces/ConcertsProvider'
 import FestivalsProvider from '../provider/interfaces/FestivalsProvider'

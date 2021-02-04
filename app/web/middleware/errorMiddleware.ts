@@ -3,7 +3,7 @@ import { MongoError } from 'mongodb'
 import { ValidationError } from 'yup'
 import ApiError from '../../entities/ApiError'
 
-const errorMiddleware: ErrorRequestHandler = (error, request, response, next) => {
+const errorMiddleware: ErrorRequestHandler = (error, request, response) => {
     const apiError: ApiError = {
         message: 'Something went wrong. Please try again.',
         error,
