@@ -16,9 +16,10 @@ const usersInteractorFactory = (
 
     authenticate(userData) {
         const user = createUser(userData)
-        const userIsAuthenticated = usersProvider.authenticate(user)
+        const storedUserData = usersProvider.getByUsername(user.username)
+        const storedUser = createUser(storedUserData)
 
-        if (!userIsAuthenticated) {
+        if (user.password !== storedUser.password) {
             return null
         }
 

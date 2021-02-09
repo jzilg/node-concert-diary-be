@@ -1,7 +1,7 @@
 import User from '../../entities/User'
 
 type UsersProvider = {
-    authenticate(user: User): boolean
+    getByUsername(username: string): User
 }
 
 export default UsersProvider

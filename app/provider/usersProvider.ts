@@ -1,10 +1,13 @@
 import UsersProvider from './interfaces/UsersProvider'
 
 const usersProvider: UsersProvider = {
-    authenticate(user) {
+    getByUsername() {
         const { USERNAME, PASSWORD } = process.env
 
-        return USERNAME === user.username && PASSWORD === user.password
+        return {
+            username: USERNAME as string,
+            password: PASSWORD as string,
+        }
     },
 }
 
