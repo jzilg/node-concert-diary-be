@@ -1,7 +1,7 @@
 import User from '../../entities/User'
 
-type AuthProvider = {
+type UsersProvider = {
     authenticate(user: User): boolean
 }
 
-export default AuthProvider
+export default UsersProvider

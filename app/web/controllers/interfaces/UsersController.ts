@@ -1,7 +1,7 @@
 import { Handler } from 'express'
 
-type AuthController = {
+type UsersController = {
     login: Handler
 }
 
-export default AuthController
+export default UsersController

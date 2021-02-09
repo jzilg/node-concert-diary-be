@@ -1,15 +1,15 @@
 import concertsControllerFactory from './concertsController'
 import festivalsControllerFactory from './festivalsController'
-import authControllerFactory from './authController'
+import usersControllerFactory from './usersController'
 import statisticsControllerFactory from './statisticsController'
 import {
-    authInteractor,
+    usersInteractor,
     concertsInteractor,
     festivalsInteractor,
     statisticsInteractor,
 } from '../../interactors'
 
-export const authController = authControllerFactory(authInteractor)
+export const usersController = usersControllerFactory(usersInteractor)
 export const concertsController = concertsControllerFactory(concertsInteractor)
 export const festivalsController = festivalsControllerFactory(festivalsInteractor)
 export const statisticsController = statisticsControllerFactory(statisticsInteractor)

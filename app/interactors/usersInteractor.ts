@@ -1,17 +1,22 @@
-import User, { createUser } from '../entities/User'
-import PropsUnknown from '../helper/PropsUnknown'
-import AuthInteractor from './interfaces/AuthInteractor'
-import AuthProvider from '../provider/interfaces/AuthProvider'
+import { createUser } from '../entities/User'
+import UsersInteractor from './interfaces/UsersInteractor'
+import UsersProvider from '../provider/interfaces/UsersProvider'
 import Jwt from '../helper/Jwt'
 
-const authInteractorFactory = (
-    authProvider: AuthProvider,
+const usersInteractorFactory = (
+    usersProvider: UsersProvider,
     jwt: Jwt,
     secret: string,
-): AuthInteractor => ({
-    authenticate(userData: PropsUnknown<User>): string | null {
+): UsersInteractor => ({
+    async register(userData) {
         const user = createUser(userData)
-        const userIsAuthenticated = authProvider.authenticate(user)
+
+        return user
+    },
+
+    authenticate(userData) {
+        const user = createUser(userData)
+        const userIsAuthenticated = usersProvider.authenticate(user)
 
         if (!userIsAuthenticated) {
             return null
@@ -37,4 +42,4 @@ const authInteractorFactory = (
     },
 })
 
-export default authInteractorFactory
+export default usersInteractorFactory

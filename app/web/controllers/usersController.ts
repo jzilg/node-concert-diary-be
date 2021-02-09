@@ -1,7 +1,7 @@
-import AuthController from './interfaces/AuthController'
-import AuthInteractor from '../../interactors/interfaces/AuthInteractor'
+import UsersController from './interfaces/UsersController'
+import UsersInteractor from '../../interactors/interfaces/UsersInteractor'
 
-const authControllerFactory = (authInteractor: AuthInteractor): AuthController => ({
+const usersControllerFactory = (authInteractor: UsersInteractor): UsersController => ({
     login(request, response) {
         const userData = {
             username: request.body.username,
@@ -20,4 +20,4 @@ const authControllerFactory = (authInteractor: AuthInteractor): AuthController =
     },
 })
 
-export default authControllerFactory
+export default usersControllerFactory

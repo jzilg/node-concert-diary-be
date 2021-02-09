@@ -1,6 +1,6 @@
-import AuthProvider from './interfaces/AuthProvider'
+import UsersProvider from './interfaces/UsersProvider'
 
-const authProvider: AuthProvider = {
+const usersProvider: UsersProvider = {
     authenticate(user) {
         const { USERNAME, PASSWORD } = process.env
 
@@ -8,4 +8,4 @@ const authProvider: AuthProvider = {
     },
 }
 
-export default authProvider
+export default usersProvider

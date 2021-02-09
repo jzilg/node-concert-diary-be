@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import {
-    authController,
+    usersController,
     concertsController,
     festivalsController,
     statisticsController,
@@ -14,7 +14,7 @@ router.get('/', (request, response) => {
     response.send('up and running')
 })
 
-router.post('/login', authController.login)
+router.post('/login', usersController.login)
 
 router.get('/concerts', authMiddleware, concertsController.index)
 router.get('/concerts/:id', authMiddleware, concertsController.show)
