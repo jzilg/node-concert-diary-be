@@ -1,6 +1,5 @@
 import * as yup from 'yup'
 import uniqid from 'uniqid'
-import PropsUnknown from '../helper/PropsUnknown'
 import Yup from '../helper/Yup'
 
 type User = {
@@ -12,7 +11,7 @@ type User = {
 export const createUserFactory = (
     validate: Yup,
     createId: () => string,
-) => (userData: PropsUnknown<User>): User => {
+) => (userData: unknown): User => {
     const schema = validate.object({
         id: validate
             .string()

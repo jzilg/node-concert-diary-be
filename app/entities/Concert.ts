@@ -1,7 +1,6 @@
 import * as yup from 'yup'
 import uniqid from 'uniqid'
 import Yup from '../helper/Yup'
-import PropsUnknown from '../helper/PropsUnknown'
 import dateRegEx from '../helper/dateRegEx'
 
 export type Concert = {
@@ -16,7 +15,7 @@ export type Concert = {
 export const createConcertFactory = (
     validate: Yup,
     createId: () => string,
-) => (concertData: PropsUnknown<Concert>): Concert => {
+) => (concertData: unknown): Concert => {
     const schema = validate.object({
         id: validate
             .string()
