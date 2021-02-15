@@ -18,7 +18,7 @@ const usersInteractorFactory = (
 
     async authenticate(userData) {
         const user = createUser(userData)
-        const storedUserData = usersProvider.getByUsername(user.username)
+        const storedUserData = await usersProvider.getByUsername(user.username)
         const storedUser = createUser(storedUserData)
 
         const match = await bcrypt.compare(user.password, storedUser.password)
