@@ -1,14 +1,22 @@
 import * as yup from 'yup'
+import uniqid from 'uniqid'
 import PropsUnknown from '../helper/PropsUnknown'
 import Yup from '../helper/Yup'
 
 type User = {
+    id?: string
     username: string
     password: string
 }
 
-export const createUserFactory = (validate: Yup) => (userData: PropsUnknown<User>): User => {
+export const createUserFactory = (
+    validate: Yup,
+    createId: () => string,
+) => (userData: PropsUnknown<User>): User => {
     const schema = validate.object({
+        id: validate
+            .string()
+            .default(createId()),
         username: validate
             .string()
             .min(2)
@@ -26,6 +34,6 @@ export const createUserFactory = (validate: Yup) => (userData: PropsUnknown<User
     })
 }
 
-export const createUser = createUserFactory(yup)
+export const createUser = createUserFactory(yup, uniqid)
 
 export default User
