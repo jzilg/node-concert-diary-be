@@ -8,15 +8,14 @@ const usersControllerFactory = (authInteractor: UsersInteractor): UsersControlle
             password: request.body.password,
         }
 
-        const token = authInteractor.authenticate(userData)
-
-        if (token === null) {
-            response.status(401)
-            response.json('Unauthorized')
-            return
-        }
-
-        response.json(token)
+        authInteractor.authenticate(userData)
+            .then((token) => {
+                response.json(token)
+            })
+            .catch(() => {
+                response.status(401)
+                response.json('Unauthorized')
+            })
     },
 })
 

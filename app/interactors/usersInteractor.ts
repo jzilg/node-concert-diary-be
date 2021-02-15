@@ -2,11 +2,13 @@ import { createUser } from '../entities/User'
 import UsersInteractor from './interfaces/UsersInteractor'
 import UsersProvider from '../provider/interfaces/UsersProvider'
 import Jwt from '../helper/Jwt'
+import Bcrypt from '../helper/Bcrypt'
 
 const usersInteractorFactory = (
     usersProvider: UsersProvider,
     jwt: Jwt,
-    secret: string,
+    jwtSecret: string,
+    bcrypt: Bcrypt,
 ): UsersInteractor => ({
     async register(userData) {
         const user = createUser(userData)
@@ -14,16 +16,18 @@ const usersInteractorFactory = (
         return user
     },
 
-    authenticate(userData) {
+    async authenticate(userData) {
         const user = createUser(userData)
         const storedUserData = usersProvider.getByUsername(user.username)
         const storedUser = createUser(storedUserData)
 
-        if (user.password !== storedUser.password) {
-            return null
+        const match = await bcrypt.compare(user.password, storedUser.password)
+
+        if (!match) {
+            throw new Error()
         }
 
-        const token = jwt.sign(user, secret, {
+        const token = jwt.sign(user, jwtSecret, {
             expiresIn: '30m',
         })
 
@@ -36,7 +40,7 @@ const usersInteractorFactory = (
         }
 
         try {
-            return typeof jwt.verify(token, secret) === 'object'
+            return typeof jwt.verify(token, jwtSecret) === 'object'
         } catch (error) {
             return false
         }
