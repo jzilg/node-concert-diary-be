@@ -34,15 +34,17 @@ const usersInteractorFactory = (
         return token
     },
 
-    verifyToken(token: string): boolean {
+    getUserByToken(token) {
         if (!token) {
-            return false
+            return undefined
         }
 
         try {
-            return typeof jwt.verify(token, jwtSecret) === 'object'
+            const userData = jwt.verify(token, jwtSecret)
+
+            return createUser(userData)
         } catch (error) {
-            return false
+            return undefined
         }
     },
 })

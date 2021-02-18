@@ -2,13 +2,15 @@ import { Handler } from 'express'
 import { usersInteractor } from '../../interactors'
 
 const authMiddleware: Handler = (request, response, next) => {
-    const isVerified = usersInteractor.verifyToken(request.query.api_token as string)
+    const user = usersInteractor.getUserByToken(request.query.api_token as string)
 
-    if (!isVerified) {
+    if (!user) {
         response.status(401)
         response.json('Unauthorized')
         return
     }
+
+    response.locals.user = user
 
     next()
 }
