@@ -4,91 +4,95 @@ import FestivalsProvider from './interfaces/FestivalsProvider'
 const DB = 'concert-diary'
 const COLLECTION = 'festivals'
 
-const festivalsProvider: FestivalsProvider = {
-    async getAll() {
-        const client = createClient()
+const fetivalsProvider: FestivalsProvider = (userId) => {
+    const collectionName = `${COLLECTION}-${userId}`
 
-        try {
-            await client.connect()
-            const db = client.db(DB)
-            const collection = db.collection(COLLECTION)
-            const cursor = collection.find()
+    return {
+        async getAll() {
+            const client = createClient()
 
-            const festivals = await cursor.toArray()
+            try {
+                await client.connect()
+                const db = client.db(DB)
+                const collection = db.collection(collectionName)
+                const cursor = collection.find()
 
-            return festivals
-        } finally {
-            await client.close()
-        }
-    },
+                const fetivals = await cursor.toArray()
 
-    async getById(id) {
-        const client = createClient()
-
-        try {
-            await client.connect()
-            const db = client.db(DB)
-            const collection = db.collection(COLLECTION)
-            const query = { id }
-
-            const festival = await collection.findOne(query)
-
-            return festival
-        } finally {
-            await client.close()
-        }
-    },
-
-    async add(festival) {
-        const client = createClient()
-
-        try {
-            await client.connect()
-            const db = client.db(DB)
-            const collection = db.collection(COLLECTION)
-
-            await collection.insertOne({ ...festival })
-
-            return festival
-        } finally {
-            await client.close()
-        }
-    },
-
-    async update(id, festival) {
-        const client = createClient()
-
-        try {
-            await client.connect()
-            const db = client.db(DB)
-            const collection = db.collection(COLLECTION)
-            const query = { id }
-            const document = {
-                $set: festival,
+                return fetivals
+            } finally {
+                await client.close()
             }
+        },
 
-            await collection.updateOne(query, document)
+        async getById(id) {
+            const client = createClient()
 
-            return festival
-        } finally {
-            await client.close()
-        }
-    },
+            try {
+                await client.connect()
+                const db = client.db(DB)
+                const collection = db.collection(collectionName)
+                const query = { id }
 
-    async remove(id) {
-        const client = createClient()
+                const fetival = await collection.findOne(query)
 
-        try {
-            await client.connect()
-            const db = client.db(DB)
-            const collection = db.collection(COLLECTION)
-            const query = { id }
+                return fetival
+            } finally {
+                await client.close()
+            }
+        },
 
-            await collection.deleteOne(query)
-        } finally {
-            await client.close()
-        }
-    },
+        async add(fetival) {
+            const client = createClient()
+
+            try {
+                await client.connect()
+                const db = client.db(DB)
+                const collection = db.collection(collectionName)
+
+                await collection.insertOne({ ...fetival })
+
+                return fetival
+            } finally {
+                await client.close()
+            }
+        },
+
+        async update(id, fetival) {
+            const client = createClient()
+
+            try {
+                await client.connect()
+                const db = client.db(DB)
+                const collection = db.collection(collectionName)
+                const query = { id }
+                const document = {
+                    $set: fetival,
+                }
+
+                await collection.updateOne(query, document)
+
+                return fetival
+            } finally {
+                await client.close()
+            }
+        },
+
+        async remove(id) {
+            const client = createClient()
+
+            try {
+                await client.connect()
+                const db = client.db(DB)
+                const collection = db.collection(collectionName)
+                const query = { id }
+
+                await collection.deleteOne(query)
+            } finally {
+                await client.close()
+            }
+        },
+    }
 }
 
-export default festivalsProvider
+export default fetivalsProvider

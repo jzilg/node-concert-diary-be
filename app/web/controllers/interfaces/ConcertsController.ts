@@ -1,5 +1,6 @@
 import ResourcesController from './ResourcesController'
+import ConcertsInteractor from '../../../interactors/interfaces/ConcertsInteractor'
 
-type ConcertsController = ResourcesController & {}
+type ConcertsControllerFactory = (concertsInteractor: ConcertsInteractor) => ResourcesController
 
-export default ConcertsController
+export default ConcertsControllerFactory

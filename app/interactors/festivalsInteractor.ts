@@ -1,35 +1,38 @@
 import { createFestival } from '../entities/Festival'
-import FestivalsProvider from '../provider/interfaces/FestivalsProvider'
-import FestivalsInteractor from './interfaces/FestivalsInteractor'
+import { FestivalsInteractorFactory } from './interfaces/FestivalsInteractor'
 
-const festivalsInteractorFactory = (festivalsProvider: FestivalsProvider): FestivalsInteractor => ({
-    async getAllFestivals() {
-        const festivalsData = await festivalsProvider.getAll()
+const festivalsInteractorFactory: FestivalsInteractorFactory = (festivalsProvider) => (userId) => {
+    const festivalsOfUserProvider = festivalsProvider(userId)
 
-        return festivalsData.map(createFestival)
-    },
+    return {
+        async getAllFestivals() {
+            const festivalsData = await festivalsOfUserProvider.getAll()
 
-    async getFestival(id) {
-        const festivalData = await festivalsProvider.getById(id)
+            return festivalsData.map(createFestival)
+        },
 
-        return createFestival(festivalData)
-    },
+        async getFestival(id) {
+            const festivalData = await festivalsOfUserProvider.getById(id)
 
-    storeFestival(festivalData) {
-        const festival = createFestival(festivalData)
+            return createFestival(festivalData)
+        },
 
-        return festivalsProvider.add(festival)
-    },
+        storeFestival(festivalData) {
+            const festival = createFestival(festivalData)
 
-    updateFestival(id, festivalData) {
-        const festival = createFestival(festivalData)
+            return festivalsOfUserProvider.add(festival)
+        },
 
-        return festivalsProvider.update(id, festival)
-    },
+        updateFestival(id, festivalData) {
+            const festival = createFestival(festivalData)
 
-    deleteFestival(id) {
-        return festivalsProvider.remove(id)
-    },
-})
+            return festivalsOfUserProvider.update(id, festival)
+        },
+
+        deleteFestival(id) {
+            return festivalsOfUserProvider.remove(id)
+        },
+    }
+}
 
 export default festivalsInteractorFactory

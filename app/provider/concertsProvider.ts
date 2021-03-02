@@ -4,91 +4,95 @@ import ConcertsProvider from './interfaces/ConcertsProvider'
 const DB = 'concert-diary'
 const COLLECTION = 'concerts'
 
-const concertsProvider: ConcertsProvider = {
-    async getAll() {
-        const client = createClient()
+const concertsProvider: ConcertsProvider = (userId) => {
+    const collectionName = `${COLLECTION}-${userId}`
 
-        try {
-            await client.connect()
-            const db = client.db(DB)
-            const collection = db.collection(COLLECTION)
-            const cursor = collection.find()
+    return {
+        async getAll() {
+            const client = createClient()
 
-            const concerts = await cursor.toArray()
+            try {
+                await client.connect()
+                const db = client.db(DB)
+                const collection = db.collection(collectionName)
+                const cursor = collection.find()
 
-            return concerts
-        } finally {
-            await client.close()
-        }
-    },
+                const concerts = await cursor.toArray()
 
-    async getById(id) {
-        const client = createClient()
-
-        try {
-            await client.connect()
-            const db = client.db(DB)
-            const collection = db.collection(COLLECTION)
-            const query = { id }
-
-            const concert = await collection.findOne(query)
-
-            return concert
-        } finally {
-            await client.close()
-        }
-    },
-
-    async add(concert) {
-        const client = createClient()
-
-        try {
-            await client.connect()
-            const db = client.db(DB)
-            const collection = db.collection(COLLECTION)
-
-            await collection.insertOne({ ...concert })
-
-            return concert
-        } finally {
-            await client.close()
-        }
-    },
-
-    async update(id, concert) {
-        const client = createClient()
-
-        try {
-            await client.connect()
-            const db = client.db(DB)
-            const collection = db.collection(COLLECTION)
-            const query = { id }
-            const document = {
-                $set: concert,
+                return concerts
+            } finally {
+                await client.close()
             }
+        },
 
-            await collection.updateOne(query, document)
+        async getById(id) {
+            const client = createClient()
 
-            return concert
-        } finally {
-            await client.close()
-        }
-    },
+            try {
+                await client.connect()
+                const db = client.db(DB)
+                const collection = db.collection(collectionName)
+                const query = { id }
 
-    async remove(id) {
-        const client = createClient()
+                const concert = await collection.findOne(query)
 
-        try {
-            await client.connect()
-            const db = client.db(DB)
-            const collection = db.collection(COLLECTION)
-            const query = { id }
+                return concert
+            } finally {
+                await client.close()
+            }
+        },
 
-            await collection.deleteOne(query)
-        } finally {
-            await client.close()
-        }
-    },
+        async add(concert) {
+            const client = createClient()
+
+            try {
+                await client.connect()
+                const db = client.db(DB)
+                const collection = db.collection(collectionName)
+
+                await collection.insertOne({ ...concert })
+
+                return concert
+            } finally {
+                await client.close()
+            }
+        },
+
+        async update(id, concert) {
+            const client = createClient()
+
+            try {
+                await client.connect()
+                const db = client.db(DB)
+                const collection = db.collection(collectionName)
+                const query = { id }
+                const document = {
+                    $set: concert,
+                }
+
+                await collection.updateOne(query, document)
+
+                return concert
+            } finally {
+                await client.close()
+            }
+        },
+
+        async remove(id) {
+            const client = createClient()
+
+            try {
+                await client.connect()
+                const db = client.db(DB)
+                const collection = db.collection(collectionName)
+                const query = { id }
+
+                await collection.deleteOne(query)
+            } finally {
+                await client.close()
+            }
+        },
+    }
 }
 
 export default concertsProvider

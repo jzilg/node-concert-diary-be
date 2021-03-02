@@ -4,7 +4,7 @@ import PropsUnknown from '../../helper/PropsUnknown'
 
 const storage: Set<Concert> = new Set()
 
-const mockConcertsProvider: ConcertsProvider = {
+const mockConcertsProvider: ConcertsProvider = (userId) => ({
     async getAll() {
         return Array.from(storage)
     },
@@ -37,6 +37,6 @@ const mockConcertsProvider: ConcertsProvider = {
 
         storage.delete(concertToRemove as Concert)
     },
-}
+})
 
 export default mockConcertsProvider

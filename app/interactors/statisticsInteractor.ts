@@ -131,11 +131,11 @@ function getLocationsCount(concerts: Concert[]): number {
 const statisticsInteractorFactory = (
     concertsProvider: ConcertsProvider,
     festivalsProvider: FestivalsProvider,
-): StatisticsInteractor => ({
+): StatisticsInteractor => (userId) => ({
     async getStatistics() {
-        const concertsData = await concertsProvider.getAll()
+        const concertsData = await concertsProvider(userId).getAll()
         const concerts = concertsData.map(createConcert)
-        const festivalsData = await festivalsProvider.getAll()
+        const festivalsData = await festivalsProvider(userId).getAll()
         const festivals = festivalsData.map(createFestival)
 
         return {

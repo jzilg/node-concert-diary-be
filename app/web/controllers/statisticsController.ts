@@ -5,7 +5,9 @@ const statisticsControllerFactory = (
     statisticsInteractor: StatisticsInteractor,
 ): StatisticsController => ({
     index(request, response, next) {
-        statisticsInteractor.getStatistics()
+        const { user } = response.locals
+
+        statisticsInteractor(user.id).getStatistics()
             .then((statistics) => {
                 response.json(statistics)
             })

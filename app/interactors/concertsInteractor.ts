@@ -1,35 +1,38 @@
 import { createConcert } from '../entities/Concert'
-import ConcertsProvider from '../provider/interfaces/ConcertsProvider'
-import ConcertsInteractor from './interfaces/ConcertsInteractor'
+import { ConcertsInteractorFactory } from './interfaces/ConcertsInteractor'
 
-const concertsInteractorFactory = (concertsProvider: ConcertsProvider): ConcertsInteractor => ({
-    async getAllConcerts() {
-        const concertsData = await concertsProvider.getAll()
+const concertsInteractorFactory: ConcertsInteractorFactory = (concertsProvider) => (userId) => {
+    const concertsOfUserProvider = concertsProvider(userId)
 
-        return concertsData.map(createConcert)
-    },
+    return {
+        async getAllConcerts() {
+            const concertsData = await concertsOfUserProvider.getAll()
 
-    async getConcert(id) {
-        const concertData = await concertsProvider.getById(id)
+            return concertsData.map(createConcert)
+        },
 
-        return createConcert(concertData)
-    },
+        async getConcert(id) {
+            const concertData = await concertsOfUserProvider.getById(id)
 
-    storeConcert(concertData) {
-        const concert = createConcert(concertData)
+            return createConcert(concertData)
+        },
 
-        return concertsProvider.add(concert)
-    },
+        storeConcert(concertData) {
+            const concert = createConcert(concertData)
 
-    updateConcert(id, concertData) {
-        const concert = createConcert(concertData)
+            return concertsOfUserProvider.add(concert)
+        },
 
-        return concertsProvider.update(id, concert)
-    },
+        updateConcert(id, concertData) {
+            const concert = createConcert(concertData)
 
-    deleteConcert(id) {
-        return concertsProvider.remove(id)
-    },
-})
+            return concertsOfUserProvider.update(id, concert)
+        },
+
+        deleteConcert(id) {
+            return concertsOfUserProvider.remove(id)
+        },
+    }
+}
 
 export default concertsInteractorFactory

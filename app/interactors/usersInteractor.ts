@@ -10,12 +10,6 @@ const usersInteractorFactory = (
     jwtSecret: string,
     bcrypt: Bcrypt,
 ): UsersInteractor => ({
-    async register(userData) {
-        const user = createUser(userData)
-
-        return user
-    },
-
     async authenticate(userData) {
         const user = createUser(userData)
         const storedUserData = await usersProvider.getByUsername(user.username)
@@ -27,7 +21,7 @@ const usersInteractorFactory = (
             throw new Error()
         }
 
-        const token = jwt.sign(user, jwtSecret, {
+        const token = jwt.sign(storedUser, jwtSecret, {
             expiresIn: '30m',
         })
 

@@ -1,11 +1,10 @@
-import FestivalsController from './interfaces/FestivalsController'
-import FestivalsInteractor from '../../interactors/interfaces/FestivalsInteractor'
+import FestivalsControllerFactory from './interfaces/FestivalsController'
 
-const festivalsControllerFactory = (
-    festivalsInteractor: FestivalsInteractor,
-): FestivalsController => ({
+const festivalsControllerFactory: FestivalsControllerFactory = (festivalsInteractor) => ({
     index(request, response, next) {
-        festivalsInteractor.getAllFestivals()
+        const { user } = response.locals
+
+        festivalsInteractor(user.id).getAllFestivals()
             .then((festivals) => {
                 response.json(festivals)
             })
@@ -13,9 +12,10 @@ const festivalsControllerFactory = (
     },
 
     show(request, response, next) {
+        const { user } = response.locals
         const { id } = request.params
 
-        festivalsInteractor.getFestival(id)
+        festivalsInteractor(user.id).getFestival(id)
             .then((festival) => {
                 response.json(festival)
             })
@@ -23,6 +23,7 @@ const festivalsControllerFactory = (
     },
 
     store(request, response, next) {
+        const { user } = response.locals
         const festivalData = {
             bands: request.body.bands,
             name: request.body.name,
@@ -30,7 +31,7 @@ const festivalsControllerFactory = (
             companions: request.body.companions,
         }
 
-        festivalsInteractor.storeFestival(festivalData)
+        festivalsInteractor(user.id).storeFestival(festivalData)
             .then((storedFestival) => {
                 response.status(201)
                 response.json(storedFestival)
@@ -39,6 +40,7 @@ const festivalsControllerFactory = (
     },
 
     update(request, response, next) {
+        const { user } = response.locals
         const { id } = request.params
         const festivalData = {
             id: request.body.id,
@@ -48,7 +50,7 @@ const festivalsControllerFactory = (
             companions: request.body.companions,
         }
 
-        festivalsInteractor.updateFestival(id, festivalData)
+        festivalsInteractor(user.id).updateFestival(id, festivalData)
             .then((updatedFestival) => {
                 response.json(updatedFestival)
             })
@@ -56,9 +58,10 @@ const festivalsControllerFactory = (
     },
 
     destroy(request, response, next) {
+        const { user } = response.locals
         const { id } = request.params
 
-        festivalsInteractor.deleteFestival(id)
+        festivalsInteractor(user.id).deleteFestival(id)
             .then(() => {
                 response.status(204)
                 response.send()
