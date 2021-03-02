@@ -3,4 +3,8 @@ module.exports = {
     transform: {
         '^.+\\.ts?$': 'ts-jest',
     },
+    collectCoverageFrom: [
+        'app/**/*.ts',
+        '!app/**/index.ts',
+    ],
 }
