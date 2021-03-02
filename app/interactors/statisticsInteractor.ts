@@ -1,9 +1,7 @@
 import Concert, { createConcert } from '../entities/Concert'
 import Festival, { createFestival } from '../entities/Festival'
 import MostSeenBand from '../entities/MostSeenBand'
-import StatisticsInteractor from './interfaces/StatisticsInteractor'
-import ConcertsProvider from '../provider/interfaces/ConcertsProvider'
-import FestivalsProvider from '../provider/interfaces/FestivalsProvider'
+import { StatisticsInteractorFactory } from './interfaces/StatisticsInteractor'
 
 function getMostSeenBands(concerts: Concert[], festivals: Festival[]): MostSeenBand[] {
     type Band = {
@@ -128,10 +126,8 @@ function getLocationsCount(concerts: Concert[]): number {
     return locations.size
 }
 
-const statisticsInteractorFactory = (
-    concertsProvider: ConcertsProvider,
-    festivalsProvider: FestivalsProvider,
-): StatisticsInteractor => (userId) => ({
+// eslint-disable-next-line max-len
+const statisticsInteractorFactory: StatisticsInteractorFactory = (concertsProvider, festivalsProvider) => (userId) => ({
     async getStatistics() {
         const concertsData = await concertsProvider(userId).getAll()
         const concerts = concertsData.map(createConcert)
