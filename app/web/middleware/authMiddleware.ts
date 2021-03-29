@@ -2,9 +2,10 @@ import { Handler } from 'express'
 import { usersInteractor } from '../../interactors'
 
 const authMiddleware: Handler = (request, response, next) => {
-    const user = usersInteractor.getUserByToken(request.query.api_token as string)
+    const token = request.headers.authorization?.replace('Bearer ', '') ?? ''
+    const user = usersInteractor.getUserByToken(token)
 
-    if (!user) {
+    if (user === undefined) {
         response.status(401)
         response.json('Unauthorized')
         return
