@@ -9,8 +9,15 @@ import festivalsInteractorFactory from './festivalsInteractor'
 import statisticsInteractorFactory from './statisticsInteractor'
 
 const jwtSecret = process.env.JWT_SECRET as string
+const registerToken = process.env.REGISTER_TOKEN as string
 
-export const usersInteractor = usersInteractorFactory(usersProvider, jwt, jwtSecret, bcrypt)
+export const usersInteractor = usersInteractorFactory(
+    usersProvider,
+    jwt,
+    jwtSecret,
+    bcrypt,
+    registerToken,
+)
 export const concertsInteractor = concertsInteractorFactory(concertsProvider)
 export const festivalsInteractor = festivalsInteractorFactory(festivalsProvider)
 export const statisticsInteractor = statisticsInteractorFactory(concertsProvider, festivalsProvider)

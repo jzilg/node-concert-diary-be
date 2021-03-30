@@ -21,6 +21,20 @@ const usersProvider: UsersProvider = {
             await client.close()
         }
     },
+
+    async addNewUser(user) {
+        const client = createClient()
+
+        try {
+            await client.connect()
+            const db = client.db(DB)
+            const collection = db.collection(COLLECTION)
+
+            await collection.insertOne(user)
+        } finally {
+            await client.close()
+        }
+    },
 }
 
 export default usersProvider

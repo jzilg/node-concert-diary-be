@@ -15,6 +15,7 @@ router.get('/', (request, response) => {
 })
 
 router.post('/login', usersController.login)
+router.post('/register', usersController.register)
 
 router.get('/concerts', authMiddleware, concertsController.index)
 router.get('/concerts/:id', authMiddleware, concertsController.show)

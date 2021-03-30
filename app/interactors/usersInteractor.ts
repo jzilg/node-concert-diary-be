@@ -9,6 +9,7 @@ const usersInteractorFactory = (
     jwt: Jwt,
     jwtSecret: string,
     bcrypt: Bcrypt,
+    registerToken: string,
 ): UsersInteractor => ({
     async authenticate(userData) {
         const user = createUser(userData)
@@ -40,6 +41,27 @@ const usersInteractorFactory = (
         } catch (error) {
             return undefined
         }
+    },
+
+    async register(userData, token) {
+        if (token !== registerToken) {
+            throw new Error('Token not right')
+        }
+
+        const user = createUser(userData)
+        const userAlreadyExists = await usersProvider.getByUsername(user.username) !== null
+
+        if (userAlreadyExists) {
+            throw new Error('User already exists')
+        }
+
+        const salt = await bcrypt.genSalt()
+        const encryptedPassword = await bcrypt.hash(user.password, salt)
+
+        await usersProvider.addNewUser({
+            ...user,
+            password: encryptedPassword,
+        })
     },
 })
 
