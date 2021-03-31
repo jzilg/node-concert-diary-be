@@ -3,6 +3,7 @@ import UsersInteractor from './interfaces/UsersInteractor'
 import UsersProvider from '../provider/interfaces/UsersProvider'
 import Jwt from '../helper/Jwt'
 import Bcrypt from '../helper/Bcrypt'
+import RequestError from '../errors/RequestError'
 
 const usersInteractorFactory = (
     usersProvider: UsersProvider,
@@ -45,14 +46,14 @@ const usersInteractorFactory = (
 
     async register(userData, token) {
         if (token !== registerToken) {
-            throw new Error('Token not right')
+            throw new RequestError('Incorrect token')
         }
 
         const user = createUser(userData)
         const userAlreadyExists = await usersProvider.getByUsername(user.username) !== null
 
         if (userAlreadyExists) {
-            throw new Error('User already exists')
+            throw new RequestError('User already exists')
         }
 
         const salt = await bcrypt.genSalt()
