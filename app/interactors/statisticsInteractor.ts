@@ -2,6 +2,8 @@ import Concert, { createConcert } from '../entities/Concert'
 import Festival, { createFestival } from '../entities/Festival'
 import MostSeenBand from '../entities/MostSeenBand'
 import { StatisticsInteractorFactory } from './interfaces/StatisticsInteractor'
+import MostCommonCompanion from '../entities/MostCommonCompanion'
+import countDuplicates from './helpers/countDuplicates'
 
 function getMostSeenBands(concerts: Concert[], festivals: Festival[]): MostSeenBand[] {
     type Band = {
@@ -126,6 +128,32 @@ function getLocationsCount(concerts: Concert[]): number {
     return locations.size
 }
 
+function getMostCommonCompanions(
+    concerts: Concert[],
+    festivals: Festival[],
+): MostCommonCompanion[] {
+    const concertCompanions = concerts.flatMap((concert) => concert.companions)
+    const concertCompanionsCounts = countDuplicates(concertCompanions)
+    const festivalCompanions = festivals.flatMap((festival) => festival.companions)
+    const festivalCompanionsCounts = countDuplicates(festivalCompanions)
+    const companions = [...new Set([
+        ...concertCompanions,
+        ...festivalCompanions,
+    ])]
+
+    return companions
+        .map((companion) => ({
+            name: companion,
+            concertCount: concertCompanionsCounts[companion],
+            festivalCount: festivalCompanionsCounts[companion],
+            totalCount: (
+                (concertCompanionsCounts[companion] ?? 0)
+                + (festivalCompanionsCounts[companion] ?? 0)
+            ),
+        }))
+        .sort((x, y) => y.totalCount - x.totalCount)
+}
+
 // eslint-disable-next-line max-len
 const statisticsInteractorFactory: StatisticsInteractorFactory = (concertsProvider, festivalsProvider) => (userId) => ({
     async getStatistics() {
@@ -136,6 +164,7 @@ const statisticsInteractorFactory: StatisticsInteractorFactory = (concertsProvid
 
         return {
             mostSeenBands: getMostSeenBands(concerts, festivals),
+            mostCommonCompanions: getMostCommonCompanions(concerts, festivals),
             totalConcertsCount: getConcertsCount(concerts),
             totalFestivalsCount: getFestivalsCount(festivals),
             totalBandsCount: getBandsCount(concerts, festivals),
