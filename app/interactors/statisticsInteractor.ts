@@ -11,7 +11,7 @@ function calcMostSeenBands(concerts: Concert[], festivals: Festival[]): MostSeen
         type: 'main' | 'support' | 'festival'
     }
 
-    const bandsFromConcerts: Band[] = concerts.reduce((accumulator, concert) => {
+    const bandsFromConcerts = concerts.reduce((accumulator, concert) => {
         const mainBand: Band = {
             name: concert.band,
             type: 'main',
@@ -28,7 +28,7 @@ function calcMostSeenBands(concerts: Concert[], festivals: Festival[]): MostSeen
         ]
     }, [] as Band[])
 
-    const bandsFromFestivals: Band[] = festivals.reduce((accumulator, festival) => {
+    const bandsFromFestivals = festivals.reduce((accumulator, festival) => {
         const bands: Band[] = festival.bands.map((band) => ({
             name: band,
             type: 'festival',
@@ -51,14 +51,14 @@ function calcMostSeenBands(concerts: Concert[], festivals: Festival[]): MostSeen
         const festivalCount = band.type === 'festival' ? 1 : 0
         const totalCount = 1
 
-        const multipleEntry = accumulator[band.name]
+        const duplicateEntry = accumulator[band.name]
 
-        const mostSeenBand: MostSeenBand = (multipleEntry) ? {
-            ...multipleEntry,
-            mainCount: multipleEntry.mainCount + mainCount,
-            supportCount: multipleEntry.supportCount + supportCount,
-            festivalCount: multipleEntry.festivalCount + festivalCount,
-            totalCount: multipleEntry.totalCount + totalCount,
+        const mostSeenBand: MostSeenBand = (duplicateEntry) ? {
+            ...duplicateEntry,
+            mainCount: duplicateEntry.mainCount + mainCount,
+            supportCount: duplicateEntry.supportCount + supportCount,
+            festivalCount: duplicateEntry.festivalCount + festivalCount,
+            totalCount: duplicateEntry.totalCount + totalCount,
         } : {
             name: band.name,
             mainCount,
