@@ -132,8 +132,8 @@ function calcMostCommonCompanions(
     return companions
         .map((companion) => ({
             name: companion,
-            concertCount: concertCompanionsCounts[companion],
-            festivalCount: festivalCompanionsCounts[companion],
+            concertCount: concertCompanionsCounts[companion] ?? 0,
+            festivalCount: festivalCompanionsCounts[companion] ?? 0,
             totalCount: (
                 (concertCompanionsCounts[companion] ?? 0)
                 + (festivalCompanionsCounts[companion] ?? 0)
