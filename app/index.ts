@@ -1,6 +1,5 @@
 import './env'
 import express from 'express'
-import bodyParser from 'body-parser'
 import cors from 'cors'
 import compression from 'compression'
 import morgan from 'morgan'
@@ -11,7 +10,7 @@ const server = express()
 
 server.use([
     morgan('dev'),
-    bodyParser.json(),
+    express.json(),
     cors(),
     compression(),
     router,
