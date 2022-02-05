@@ -28,9 +28,7 @@ export const createUserFactory = (
 
     const validatedUser = schema.validateSync(userData)
 
-    return Object.freeze({
-        ...validatedUser,
-    })
+    return Object.freeze(validatedUser)
 }
 
 export const createUser = createUserFactory(yup, uniqid)

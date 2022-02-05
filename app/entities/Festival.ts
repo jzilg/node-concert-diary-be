@@ -51,9 +51,7 @@ export const createFestivalFactory = (
 
     const validatedFestivalData = schema.validateSync(festivalData)
 
-    return Object.freeze({
-        ...validatedFestivalData,
-    })
+    return Object.freeze(validatedFestivalData)
 }
 
 export const createFestival = createFestivalFactory(yup, uniqid)

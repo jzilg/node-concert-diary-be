@@ -45,9 +45,7 @@ export const createConcertFactory = (
 
     const validatedConcertData = schema.validateSync(concertData)
 
-    return Object.freeze({
-        ...validatedConcertData,
-    })
+    return Object.freeze(validatedConcertData)
 }
 
 export const createConcert = createConcertFactory(yup, uniqid)
