@@ -1,8 +1,8 @@
-import Concert from '../../entities/Concert'
+import { Concert } from '../../entities'
 
 type ConcertsProvider = (userId: string) => ({
-    getAll(): Promise<unknown[]>
-    getById(id: string): Promise<unknown>
+    getAll(): Promise<Concert[]>
+    getById(id: string): Promise<Concert>
     add(concert: Concert): Promise<Concert>
     update(id: string, concert: Concert): Promise<Concert>
     remove(id: string): Promise<void>

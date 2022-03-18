@@ -1,4 +1,4 @@
-import Concert from '../Concert'
+import { Concert } from '../index'
 
 const mockConcert: Concert = {
     id: '0',

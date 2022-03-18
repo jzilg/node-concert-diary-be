@@ -1,11 +1,13 @@
-import Concert, { createConcert } from '../entities/Concert'
-import Festival, { createFestival } from '../entities/Festival'
-import MostSeenBand from '../entities/MostSeenBand'
+import {
+    Concert,
+    Festival,
+    MostSeenBand,
+    MostCommonCompanion,
+} from '../entities'
 import { StatisticsInteractorFactory } from './interfaces/StatisticsInteractor'
-import MostCommonCompanion from '../entities/MostCommonCompanion'
 import countDuplicates from './helpers/countDuplicates'
 
-function calcMostSeenBands(concerts: Concert[], festivals: Festival[]): MostSeenBand[] {
+const calcMostSeenBands = (concerts: Concert[], festivals: Festival[]): MostSeenBand[] => {
     type Band = {
         name: string
         type: 'main' | 'support' | 'festival'
@@ -79,15 +81,7 @@ function calcMostSeenBands(concerts: Concert[], festivals: Festival[]): MostSeen
         .sort((x, y) => y.totalCount - x.totalCount)
 }
 
-function calcConcertsCount(concerts: Concert[]): number {
-    return concerts.length
-}
-
-function calcFestivalsCount(festivals: Festival[]): number {
-    return festivals.length
-}
-
-function calcBandsCount(concerts: Concert[], festivals: Festival[]): number {
+const calcBandsCount = (concerts: Concert[], festivals: Festival[]): number => {
     const bands = new Set()
 
     concerts.forEach((concert) => {
@@ -106,7 +100,7 @@ function calcBandsCount(concerts: Concert[], festivals: Festival[]): number {
     return bands.size
 }
 
-function calcLocationsCount(concerts: Concert[]): number {
+const calcLocationsCount = (concerts: Concert[]): number => {
     const locations = new Set()
 
     concerts.forEach((concert) => {
@@ -116,10 +110,10 @@ function calcLocationsCount(concerts: Concert[]): number {
     return locations.size
 }
 
-function calcMostCommonCompanions(
+const calcMostCommonCompanions = (
     concerts: Concert[],
     festivals: Festival[],
-): MostCommonCompanion[] {
+): MostCommonCompanion[] => {
     const concertCompanions = concerts.flatMap((concert) => concert.companions)
     const concertCompanionsCounts = countDuplicates(concertCompanions)
     const festivalCompanions = festivals.flatMap((festival) => festival.companions)
@@ -142,19 +136,19 @@ function calcMostCommonCompanions(
         .sort((x, y) => y.totalCount - x.totalCount)
 }
 
-// eslint-disable-next-line max-len
-const statisticsInteractorFactory: StatisticsInteractorFactory = (concertsProvider, festivalsProvider) => (userId) => ({
+const statisticsInteractorFactory: StatisticsInteractorFactory = ({
+    concertsProvider,
+    festivalsProvider,
+}) => (userId) => ({
     async getStatistics() {
-        const concertsData = await concertsProvider(userId).getAll()
-        const concerts = concertsData.map(createConcert)
-        const festivalsData = await festivalsProvider(userId).getAll()
-        const festivals = festivalsData.map(createFestival)
+        const concerts = await concertsProvider(userId).getAll()
+        const festivals = await festivalsProvider(userId).getAll()
 
         return {
             mostSeenBands: calcMostSeenBands(concerts, festivals),
             mostCommonCompanions: calcMostCommonCompanions(concerts, festivals),
-            totalConcertsCount: calcConcertsCount(concerts),
-            totalFestivalsCount: calcFestivalsCount(festivals),
+            totalConcertsCount: concerts.length,
+            totalFestivalsCount: festivals.length,
             totalBandsCount: calcBandsCount(concerts, festivals),
             totalLocationsCount: calcLocationsCount(concerts),
         }

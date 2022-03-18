@@ -1,66 +1,69 @@
-import { createUser } from '../entities/User'
-import UsersInteractor from './interfaces/UsersInteractor'
-import UsersProvider from '../provider/interfaces/UsersProvider'
-import Jwt from '../helper/Jwt'
-import Bcrypt from '../helper/Bcrypt'
+import { User } from '../entities'
+import { UsersInteractorFactory } from './interfaces/UsersInteractor'
 import RequestError from '../errors/RequestError'
+import AuthorizationError from '../errors/AuthorizationError'
 
-const usersInteractorFactory = (
-    usersProvider: UsersProvider,
-    jwt: Jwt,
-    jwtSecret: string,
-    bcrypt: Bcrypt,
-    registerToken: string,
-): UsersInteractor => ({
-    async authenticate(userData) {
-        const user = createUser(userData)
-        const storedUserData = await usersProvider.getByUsername(user.username)
-        const storedUser = createUser(storedUserData)
+const usersInteractorFactory: UsersInteractorFactory = ({
+    usersProvider,
+    jwtLib,
+    jwtSecret,
+    bcrypt,
+    registerToken,
+    createId,
+}) => ({
+    async authenticate(login) {
+        const storedUser = await usersProvider.getByUsername(login.username)
 
-        const match = await bcrypt.compare(user.password, storedUser.password)
-
-        if (!match) {
-            throw new Error()
+        if (storedUser === null) {
+            throw new AuthorizationError('Unauthorized')
         }
 
-        const token = jwt.sign(storedUser, jwtSecret, {
+        const match = await bcrypt.compare(login.password, storedUser.password)
+
+        if (!match) {
+            throw new AuthorizationError('Unauthorized')
+        }
+
+        const token = jwtLib.sign(storedUser, jwtSecret, {
             expiresIn: '30m',
         })
 
         return token
     },
 
-    getUserByToken(token) {
-        if (!token) {
+    getUserByJwt(jwt) {
+        if (!jwt) {
             return undefined
         }
 
         try {
-            const userData = jwt.verify(token, jwtSecret)
+            const user = jwtLib.verify(jwt, jwtSecret)
 
-            return createUser(userData)
+            return user as User
         } catch (error) {
             return undefined
         }
     },
 
-    async register(userData, token) {
+    async register(register) {
+        const { token, password, username } = register
+
         if (token !== registerToken) {
-            throw new RequestError('Incorrect token')
+            throw new AuthorizationError('Incorrect token')
         }
 
-        const user = createUser(userData)
-        const userAlreadyExists = await usersProvider.getByUsername(user.username) !== null
+        const userAlreadyExists = await usersProvider.getByUsername(username) !== null
 
         if (userAlreadyExists) {
-            throw new RequestError('User already exists')
+            throw new RequestError('Username already exists')
         }
 
         const salt = await bcrypt.genSalt()
-        const encryptedPassword = await bcrypt.hash(user.password, salt)
+        const encryptedPassword = await bcrypt.hash(password, salt)
 
         await usersProvider.addNewUser({
-            ...user,
+            id: createId(),
+            username,
             password: encryptedPassword,
         })
     },

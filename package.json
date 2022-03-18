@@ -9,7 +9,9 @@
     "dev": "nodemon ./app/index.ts",
     "test": "jest",
     "eslint": "eslint . --ext .js,.ts",
-    "eslint:fix": "eslint . --ext .js,.ts --fix"
+    "eslint:fix": "eslint . --ext .js,.ts --fix",
+    "generate-swagger-json": "ts-node app/swagger/generate-json.ts",
+    "generate-entities": "swagger-typescript-api --no-client -p ./app/swagger/swagger.json -o ./app/entities -n index.ts"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +26,7 @@
     "@types/mongodb": "^3.6.3",
     "@types/morgan": "^1.9.2",
     "@types/node": "^14.14.7",
+    "@types/swagger-ui-express": "^4.1.3",
     "@types/uniqid": "^5.2.0",
     "@typescript-eslint/eslint-plugin": "^4.11.1",
     "@typescript-eslint/parser": "^4.11.1",
@@ -34,6 +37,7 @@
     "eslint-plugin-jest": "^24.1.3",
     "jest": "^26.6.3",
     "nodemon": "^2.0.7",
+    "swagger-typescript-api": "^9.3.1",
     "ts-jest": "^26.5.0",
     "ts-node": "^9.1.1",
     "typescript": "^4.0.5"
@@ -44,10 +48,12 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-openapi-validator": "^4.13.6",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.6.3",
     "morgan": "^1.10.0",
-    "uniqid": "^5.2.0",
-    "yup": "^0.32.8"
+    "openapi3-ts": "^2.0.2",
+    "swagger-ui-express": "^4.3.0",
+    "uniqid": "^5.2.0"
   }
 }

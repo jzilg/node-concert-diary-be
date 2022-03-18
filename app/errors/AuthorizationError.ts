@@ -1,9 +1,9 @@
-export default class RequestError extends Error {
+export default class AuthorizationError extends Error {
     readonly status: number
 
     constructor(message: string) {
         super(message)
 
-        this.status = 400
+        this.status = 401
     }
 }

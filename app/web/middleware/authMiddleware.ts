@@ -1,14 +1,13 @@
 import { Handler } from 'express'
 import { usersInteractor } from '../../interactors'
+import AuthorizationError from '../../errors/AuthorizationError'
 
 const authMiddleware: Handler = (request, response, next) => {
-    const token = request.headers.authorization?.replace('Bearer ', '') ?? ''
-    const user = usersInteractor.getUserByToken(token)
+    const jwt = request.headers.authorization?.replace('Bearer ', '') ?? ''
+    const user = usersInteractor.getUserByJwt(jwt)
 
     if (user === undefined) {
-        response.status(401)
-        response.json('Unauthorized')
-        return
+        throw new AuthorizationError('Unauthorized')
     }
 
     response.locals.user = user

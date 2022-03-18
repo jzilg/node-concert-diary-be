@@ -1,31 +1,26 @@
-import { createFestival } from '../entities/Festival'
 import { FestivalsInteractorFactory } from './interfaces/FestivalsInteractor'
 
-const festivalsInteractorFactory: FestivalsInteractorFactory = (festivalsProvider) => (userId) => {
+const festivalsInteractorFactory: FestivalsInteractorFactory = (dependencies) => (userId) => {
+    const { festivalsProvider, createId } = dependencies
     const festivalsOfUserProvider = festivalsProvider(userId)
 
     return {
-        async getAllFestivals() {
-            const festivalsData = await festivalsOfUserProvider.getAll()
-
-            return festivalsData.map(createFestival)
+        getAllFestivals() {
+            return festivalsOfUserProvider.getAll()
         },
 
-        async getFestival(id) {
-            const festivalData = await festivalsOfUserProvider.getById(id)
-
-            return createFestival(festivalData)
+        getFestival(id) {
+            return festivalsOfUserProvider.getById(id)
         },
 
-        storeFestival(festivalData) {
-            const festival = createFestival(festivalData)
-
-            return festivalsOfUserProvider.add(festival)
+        storeFestival(festival) {
+            return festivalsOfUserProvider.add({
+                ...festival,
+                id: createId(),
+            })
         },
 
-        updateFestival(id, festivalData) {
-            const festival = createFestival(festivalData)
-
+        updateFestival(id, festival) {
             return festivalsOfUserProvider.update(id, festival)
         },
 

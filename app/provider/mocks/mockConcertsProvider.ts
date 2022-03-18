@@ -1,10 +1,9 @@
 import ConcertsProvider from '../interfaces/ConcertsProvider'
-import Concert from '../../entities/Concert'
-import PropsUnknown from '../../helper/PropsUnknown'
+import { Concert } from '../../entities'
 
 const storage: Set<Concert> = new Set()
 
-const mockConcertsProvider: ConcertsProvider = (userId) => ({
+const mockConcertsProvider: ConcertsProvider = () => ({
     async getAll() {
         return Array.from(storage)
     },
@@ -16,7 +15,7 @@ const mockConcertsProvider: ConcertsProvider = (userId) => ({
     },
 
     async getById(id) {
-        return Array.from(storage).find((concert) => concert.id === id) as PropsUnknown<Concert>
+        return Array.from(storage).find((concert) => concert.id === id) as Concert
     },
 
     async update(id, concertToUpdate) {

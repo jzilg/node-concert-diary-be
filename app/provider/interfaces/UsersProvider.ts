@@ -1,4 +1,4 @@
-import User from '../../entities/User'
+import { User } from '../../entities'
 
 type UsersProvider = {
     getByUsername(username: string): Promise<User>

@@ -1,31 +1,26 @@
-import { createConcert } from '../entities/Concert'
 import { ConcertsInteractorFactory } from './interfaces/ConcertsInteractor'
 
-const concertsInteractorFactory: ConcertsInteractorFactory = (concertsProvider) => (userId) => {
+const concertsInteractorFactory: ConcertsInteractorFactory = (dependencies) => (userId) => {
+    const { concertsProvider, createId } = dependencies
     const concertsOfUserProvider = concertsProvider(userId)
 
     return {
-        async getAllConcerts() {
-            const concertsData = await concertsOfUserProvider.getAll()
-
-            return concertsData.map(createConcert)
+        getAllConcerts() {
+            return concertsOfUserProvider.getAll()
         },
 
-        async getConcert(id) {
-            const concertData = await concertsOfUserProvider.getById(id)
-
-            return createConcert(concertData)
+        getConcert(id) {
+            return concertsOfUserProvider.getById(id)
         },
 
-        storeConcert(concertData) {
-            const concert = createConcert(concertData)
-
-            return concertsOfUserProvider.add(concert)
+        storeConcert(concert) {
+            return concertsOfUserProvider.add({
+                ...concert,
+                id: createId(),
+            })
         },
 
-        updateConcert(id, concertData) {
-            const concert = createConcert(concertData)
-
+        updateConcert(id, concert) {
             return concertsOfUserProvider.update(id, concert)
         },
 

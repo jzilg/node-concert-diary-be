@@ -3,7 +3,10 @@ import mockConcertsProvider from '../../provider/mocks/mockConcertsProvider'
 import mockConcert from '../../entities/mocks/mockConcert'
 
 describe('concertsInteractor', () => {
-    const concertsInteractor = concertsInteractorFactory(mockConcertsProvider)('0')
+    const concertsInteractor = concertsInteractorFactory({
+        concertsProvider: mockConcertsProvider,
+        createId: () => '123abc',
+    })('0')
 
     describe('storeConcert', () => {
         it('should return added concert', async () => {

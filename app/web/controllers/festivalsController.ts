@@ -24,14 +24,8 @@ const festivalsControllerFactory: FestivalsControllerFactory = (festivalsInterac
 
     store(request, response, next) {
         const { user } = response.locals
-        const festivalData = {
-            bands: request.body.bands,
-            name: request.body.name,
-            date: request.body.date,
-            companions: request.body.companions,
-        }
 
-        festivalsInteractor(user.id).storeFestival(festivalData)
+        festivalsInteractor(user.id).storeFestival(request.body)
             .then((storedFestival) => {
                 response.status(201)
                 response.json(storedFestival)
@@ -42,15 +36,8 @@ const festivalsControllerFactory: FestivalsControllerFactory = (festivalsInterac
     update(request, response, next) {
         const { user } = response.locals
         const { id } = request.params
-        const festivalData = {
-            id: request.body.id,
-            bands: request.body.bands,
-            name: request.body.name,
-            date: request.body.date,
-            companions: request.body.companions,
-        }
 
-        festivalsInteractor(user.id).updateFestival(id, festivalData)
+        festivalsInteractor(user.id).updateFestival(id, request.body)
             .then((updatedFestival) => {
                 response.json(updatedFestival)
             })

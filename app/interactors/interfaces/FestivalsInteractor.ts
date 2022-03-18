@@ -1,16 +1,19 @@
-import Festival from '../../entities/Festival'
-import PropsUnknown from '../../helper/PropsUnknown'
+import { Festival } from '../../entities'
 import FestivalsProvider from '../../provider/interfaces/FestivalsProvider'
 
 type FestivalsInteractor = (userId: string) => ({
     getAllFestivals(): Promise<Festival[]>
     getFestival(id: string): Promise<Festival>
-    storeFestival(festivalData: PropsUnknown<Festival>): Promise<Festival>
-    updateFestival(id: string, festivalData: PropsUnknown<Festival>): Promise<Festival>
+    storeFestival(festival: Festival): Promise<Festival>
+    updateFestival(id: string, festivalData: Festival): Promise<Festival>
     deleteFestival(id: string): Promise<void>
 })
 
-// eslint-disable-next-line max-len
-export type FestivalsInteractorFactory = (festivalsProvider: FestivalsProvider) => FestivalsInteractor
+type Dependencies = {
+    festivalsProvider: FestivalsProvider
+    createId: () => string
+}
+
+export type FestivalsInteractorFactory = (dependencies: Dependencies) => FestivalsInteractor
 
 export default FestivalsInteractor

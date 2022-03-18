@@ -19,3 +19,5 @@ coverage
 
 # Built files
 dist
+app/swagger/swagger.json
+app/entities/index.ts

@@ -24,15 +24,8 @@ const concertsControllerFactory: ConcertsControllerFactory = (concertsInteractor
 
     store(request, response, next) {
         const { user } = response.locals
-        const concertData = {
-            band: request.body.band,
-            supportBands: request.body.supportBands,
-            location: request.body.location,
-            date: request.body.date,
-            companions: request.body.companions,
-        }
 
-        concertsInteractor(user.id).storeConcert(concertData)
+        concertsInteractor(user.id).storeConcert(request.body)
             .then((storedConcert) => {
                 response.status(201)
                 response.json(storedConcert)
@@ -43,16 +36,8 @@ const concertsControllerFactory: ConcertsControllerFactory = (concertsInteractor
     update(request, response, next) {
         const { user } = response.locals
         const { id } = request.params
-        const concertData = {
-            id: request.body.id,
-            band: request.body.band,
-            supportBands: request.body.supportBands,
-            location: request.body.location,
-            date: request.body.date,
-            companions: request.body.companions,
-        }
 
-        concertsInteractor(user.id).updateConcert(id, concertData)
+        concertsInteractor(user.id).updateConcert(id, request.body)
             .then((updatedConcert) => {
                 response.json(updatedConcert)
             })

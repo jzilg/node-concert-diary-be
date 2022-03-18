@@ -1,42 +1,42 @@
 import { ErrorRequestHandler } from 'express'
+import { HttpError as OpenApiValidatorError } from 'express-openapi-validator/dist/framework/types'
 import { MongoError } from 'mongodb'
-import { ValidationError } from 'yup'
-import RequestError from '../../errors/RequestError'
-import ApiError from '../../entities/ApiError'
 
-function createErrorJson(error: Error, message = 'Something went wrong. Please try again.'): ApiError {
-    return {
-        message,
-        error,
-    }
-}
-
-/* eslint-disable consistent-return */
 const errorMiddleware: ErrorRequestHandler = (error, request, response, next) => {
     if (response.headersSent) {
-        return next(error)
-    }
-
-    if (error instanceof RequestError) {
-        response.status(400)
-        response.json(createErrorJson(error, error.message))
+        next(error)
         return
     }
 
-    if (error instanceof MongoError) {
-        response.status(500)
-        response.json(createErrorJson(error))
-        return
+    console.log('\n', error, '\n')
+
+    const getErrorMessage = (): string => {
+        if (error instanceof OpenApiValidatorError) {
+            return error.name
+        }
+
+        const defaultMsg = 'Something went wrong. Please try again.'
+
+        if (error instanceof MongoError) {
+            return defaultMsg
+        }
+
+        return error.message ?? defaultMsg
     }
 
-    if (error instanceof ValidationError) {
-        response.status(400)
-        response.json(createErrorJson(error, 'Something wrong with the data to be stored'))
-        return
+    const getErrorObject = (): Object => {
+        if (error instanceof MongoError) {
+            return {}
+        }
+
+        return error
     }
 
-    response.status(500)
-    response.json(createErrorJson(error))
+    response.status(error.status ?? 500)
+    response.json({
+        message: getErrorMessage(),
+        error: getErrorObject(),
+    })
 }
 
 export default errorMiddleware
