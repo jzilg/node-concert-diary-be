@@ -5,7 +5,7 @@ import mockConcert from '../../entities/mocks/mockConcert'
 describe('concertsInteractor', () => {
     const concertsInteractor = concertsInteractorFactory({
         concertsProvider: mockConcertsProvider,
-        createId: () => '123abc',
+        createId: () => mockConcert.id,
     })('0')
 
     describe('storeConcert', () => {
