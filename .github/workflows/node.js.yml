@@ -25,5 +25,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
+    - run: npm run generate-swagger-json
+    - run: npm run generate-entities
     - run: npm run eslint
     - run: npm test
